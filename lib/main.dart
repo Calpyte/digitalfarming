@@ -28,7 +28,7 @@ class DigitalFarming extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Digital Farming',
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter.generateRoute,
       theme: ThemeData(
@@ -43,5 +43,6 @@ class DigitalFarming extends StatelessWidget {
       ),
       home: const SplashScreen(),
     );
+
   }
 }
