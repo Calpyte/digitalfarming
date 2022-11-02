@@ -1,0 +1,20 @@
+[
+  {
+    "id" : "farmerRegistration",
+    "label" : "Farmer Registration",
+    "route" : "/farmer-registration",
+    "icon" : "assets/images/farmer.png"
+  },
+  {
+    "id" : "farmRegistration",
+    "label" : "Farm Registration",
+    "route" : "/farm-registration",
+    "icon" : "assets/images/field.png"
+  },
+  {
+    "id" : "cultivationRegistration",
+    "label" : "Cultivation Registration",
+    "route" : "/cultivation-registration",
+    "icon" : "assets/images/cultivation.png"
+  }
+]

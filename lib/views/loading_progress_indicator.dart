@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+
+import '../../utils/app_colors.dart';
+
+class LoadingProgressIndicator extends StatelessWidget {
+  const LoadingProgressIndicator({this.alignment = Alignment.center});
+
+  final Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      child: const CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
+        strokeWidth: 3,
+      ),
+    );
+  }
+}

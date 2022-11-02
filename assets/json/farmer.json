@@ -1,0 +1,20 @@
+{
+  "id" : "farmer",
+  "fields" : [
+    {
+      "id" : "name",
+      "type"  : "text",
+      "validators" : [
+        {
+          "type" : "required",
+          "errorMessage" : "Name should not be empty"
+        },
+        {
+          "type" : "maxLength",
+          "length" : 25,
+          "errorMessage" : "Name should not exceed more than 25 characters"
+        }
+      ]
+    }
+  ]
+}
