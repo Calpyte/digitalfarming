@@ -3,8 +3,8 @@ import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/routes.dart';
 import 'package:digitalfarming/views/splash/splash_data.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -53,4 +53,5 @@ class _SplashScreenState extends State<SplashScreen> {
     if (permission == LocationPermission.denied) {
     } else {}
   }
+
 }

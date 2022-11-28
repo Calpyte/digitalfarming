@@ -11,6 +11,7 @@ class DropDownField extends FormBuilderDropdown {
       required this.name,
       required this.items,
       this.validators,
+      this.onChanged,
       this.hintText})
       : super(
           key: key,
@@ -38,4 +39,5 @@ class DropDownField extends FormBuilderDropdown {
   final String name;
   final List<DropdownMenuItem> items;
   final List<FormFieldValidator<dynamic>>? validators;
+  final ValueChanged? onChanged;
 }

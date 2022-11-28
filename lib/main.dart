@@ -18,7 +18,7 @@ class DigitalFarming extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
+        statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: Colors.black,
         systemNavigationBarDividerColor: Colors.black,

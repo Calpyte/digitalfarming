@@ -19,6 +19,7 @@ import 'env_repository.dart';
 import 'platform_info_repository.dart';
 
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
 
 class ApiBaseHelper {
@@ -49,7 +50,7 @@ class ApiBaseHelper {
     ],
   );
 
-  PlatformInfoRespository _platformInfoRespository =
+  final PlatformInfoRespository _platformInfoRespository =
       PlatformInfoRespositoryImpl();
   final _requestTimeOut = const Duration(seconds: 20);
 

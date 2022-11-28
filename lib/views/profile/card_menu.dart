@@ -46,17 +46,20 @@ class _CardMenuState extends State<CardMenu> {
     );
   }
 
-  Future<void> getMenu() async {
-    String data = await DefaultAssetBundle.of(context)
+  Future<void> getMenu()  async {
+    Future<String> data =  DefaultAssetBundle.of(context)
         .loadString("assets/json/menu.json");
-    List<dynamic> response = jsonDecode(data);
-    List<Menu> menuList = [];
-    for (var i = 0; i < response.length; i++) {
-      menuList.add(Menu.fromJson(response[i]));
-    }
 
-    setState(() {
-      menus = menuList;
+    data.then((value) {
+        List<dynamic> response = jsonDecode(value);
+        List<Menu> menuList = [];
+        for (var i = 0; i < response.length; i++) {
+          menuList.add(Menu.fromJson(response[i]));
+        }
+        setState(() {
+          menus = menuList;
+        });
     });
+
   }
 }

@@ -1,6 +1,7 @@
 import 'package:digitalfarming/models/Basic.dart';
 
 class Country extends Basic {
+
   Country.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];

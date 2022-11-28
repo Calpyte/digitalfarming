@@ -10,7 +10,7 @@ class SplashBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BorderButton(
-      onPressed: () => AppRouter.pushNamed(context, LoginScreen.routeName),
+      onPressed: () => AppRouter.removeAllAndPush(context, LoginScreen.routeName),
       text: Constants.LOGIN,
     );
   }

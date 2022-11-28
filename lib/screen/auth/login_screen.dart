@@ -5,12 +5,11 @@ import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/routes.dart';
 import 'package:digitalfarming/widgets/app_logo.dart';
-import 'package:digitalfarming/widgets/user_text_field.dart';
 import 'package:digitalfarming/widgets/password_text_field.dart';
+import 'package:digitalfarming/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 
 import '../../resources/result.dart';
 import '../../widgets/border_button.dart';
@@ -84,6 +83,7 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
 
   validateAndLogin(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? true) {

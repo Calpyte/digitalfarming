@@ -1,24 +1,24 @@
 import 'dart:convert';
 
+import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/country.dart';
 import 'package:digitalfarming/resources/api_base_helper.dart';
 import 'package:digitalfarming/resources/api_exception.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
 
-import '../../models/Basic.dart';
-
-class CountryClient {
-  CountryClient([ApiBaseHelper? helper]) {
+class GroupClient {
+  GroupClient([ApiBaseHelper? helper]) {
     _helper = helper ?? ApiBaseHelper();
   }
 
-  static const getCountryPath = '/country/countries';
+  static const getGroupPath = '/group/groups';
 
   ApiBaseHelper? _helper;
 
-  Future<Result<List<Basic>>> getCountries() async {
+  Future<Result<List<Basic>>> getGroups() async {
     try {
-      String responseStr = await _helper?.get(getCountryPath);
+      String responseStr = await _helper?.get(getGroupPath);
       List<dynamic> response = json.decode(responseStr);
       List<Basic> responseList = [];
       for (var i = 0; i < response.length; i++) {
@@ -31,4 +31,5 @@ class CountryClient {
       return Result.error(Constants.SERVER_ERROR);
     }
   }
+
 }

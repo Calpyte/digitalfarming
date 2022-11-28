@@ -1,28 +1,27 @@
 import 'dart:convert';
 
+import 'package:digitalfarming/models/country.dart';
 import 'package:digitalfarming/resources/api_base_helper.dart';
 import 'package:digitalfarming/resources/api_exception.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
 
-import '../../models/Basic.dart';
-
-class CountryClient {
-  CountryClient([ApiBaseHelper? helper]) {
+class StateClient {
+  StateClient([ApiBaseHelper? helper]) {
     _helper = helper ?? ApiBaseHelper();
   }
 
-  static const getCountryPath = '/country/countries';
+  static const getStatePath = '/state/by-country?country=';
 
   ApiBaseHelper? _helper;
 
-  Future<Result<List<Basic>>> getCountries() async {
+  Future<Result<List<Country>>> getStates({required String countryId}) async {
     try {
-      String responseStr = await _helper?.get(getCountryPath);
+      String responseStr = await _helper?.get(getStatePath + countryId);
       List<dynamic> response = json.decode(responseStr);
-      List<Basic> responseList = [];
+      List<Country> responseList = [];
       for (var i = 0; i < response.length; i++) {
-        responseList.add(Basic.fromJson(response[i]));
+        responseList.add(Country.fromJson(response[i]));
       }
       return Result.completed(responseList);
     } on ApiException catch (e) {

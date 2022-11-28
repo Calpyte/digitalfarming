@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:digitalfarming/blocs/repository/country_repository.dart';
+import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/country.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/result.dart';
@@ -18,7 +19,7 @@ class CountryBloc {
 
   Future<void> getCountries() async {
     countrySink.add(Result.loading(Constants.LOADING));
-    final Result<List<Country>>? response =
+    final Result<List<Basic>> response =
     await _countryRepository.getCountries();
     countrySink.add(response);
   }

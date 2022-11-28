@@ -1,9 +1,10 @@
 class Basic {
   Basic({
-      this.id, 
-      this.name,});
+    this.id,
+    this.name,
+  });
 
-  Basic.fromJson(dynamic json) {
+  Basic.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
@@ -17,5 +18,4 @@ class Basic {
     map['name'] = name;
     return map;
   }
-
 }
