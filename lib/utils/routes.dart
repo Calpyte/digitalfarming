@@ -1,3 +1,4 @@
+import 'package:digitalfarming/screen/bin_registration_screen.dart';
 import 'package:digitalfarming/screen/farmer_registration_screen.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,11 @@ class AppRouter {
       case FarmerRegistrationScreen.routeName:
         return MaterialPageRoute(
           builder: (_) => const FarmerRegistrationScreen(),
+        );
+
+      case BinRegistrationScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const BinRegistrationScreen(),
         );
 
       default:

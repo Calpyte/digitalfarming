@@ -13,6 +13,8 @@ class Constants {
   //Loading Message
   static const LOADING_LOGIN = 'Logging In';
   static const FARMER_REGISTRATION = "Farmer Registration";
+  static const BIN_REGISTRATION = "Bin Registration";
+
   static const LOADING = 'Loading';
   static const SERVER_ERROR = 'Server Error';
 

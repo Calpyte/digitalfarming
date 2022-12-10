@@ -164,7 +164,9 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                     ],
                   ),
                   decoration: const InputDecoration(
-                      labelText: 'Gender', fillColor: Colors.green),
+                    labelText: 'Gender',
+                    fillColor: Colors.green,
+                  ),
                   name: 'gender',
                   options: [
                     'Male',
