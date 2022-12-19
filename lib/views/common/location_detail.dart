@@ -163,4 +163,5 @@ class _LocationDetailState extends State<LocationDetail> {
       ),
     );
   }
+
 }

@@ -11,11 +11,11 @@ class TalukBloc {
   final logger = AppLogger.get('TalukBloc');
   final TalukRepository _talukRepository = TalukRepository();
 
-  final StreamController<Result> _districtController =
+  final StreamController<Result> _talukController =
       StreamController<Result>();
 
-  StreamSink get talukSink => _districtController.sink;
-  Stream<Result> get talukStream => _districtController.stream;
+  StreamSink get talukSink => _talukController.sink;
+  Stream<Result> get talukStream => _talukController.stream;
 
   Future<void> getTaluks({required String districtId}) async {
     talukSink.add(Result.loading(Constants.LOADING));
@@ -24,7 +24,13 @@ class TalukBloc {
     talukSink.add(response);
   }
 
+  Future<void> getAllTaluks() async {
+    talukSink.add(Result.loading(Constants.LOADING));
+    final Result<List<Basic>> response = await _talukRepository.getAllTaluks();
+    talukSink.add(response);
+  }
+
   void dispose() {
-    _districtController.close();
+    _talukController.close();
   }
 }

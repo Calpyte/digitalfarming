@@ -7,6 +7,9 @@ import 'package:digitalfarming/blocs/repository/taluk_repository.dart';
 import 'package:digitalfarming/blocs/repository/village_repository.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/farmer.dart';
+import 'package:digitalfarming/models/pagination.dart';
+import 'package:digitalfarming/models/search_criteria.dart';
+import 'package:digitalfarming/models/table_response.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
@@ -24,6 +27,17 @@ class FarmerBloc {
     farmerSink.add(Result.loading(Constants.LOADING));
     final Result<String> response =
         await _farmerRepository.saveFarmer(farmer: farmer);
+    farmerSink.add(Result.completed(response));
+  }
+
+  Future<void> getFarmer(List<SearchCriteria> criterias) async {
+    farmerSink.add(Result.loading(Constants.LOADING));
+    Pagination pagination =
+        Pagination(filter: criterias, pageNo: 1, pageSize: 10000);
+
+    final Result<TableResponse> response =
+        await _farmerRepository.getFarmer(pagination);
+
     farmerSink.add(response);
   }
 

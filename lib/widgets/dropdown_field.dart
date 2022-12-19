@@ -23,14 +23,20 @@ class DropDownField extends FormBuilderDropdown {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: AppTheme.hintText,
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.card_black, width: 0.0),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(
+                color: AppColors.green,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(3),
             ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.green, width: 0.0),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.green, width: 3.0),
+              borderRadius: BorderRadius.circular(3),
             ),
-            errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red, width: 0.0),
+            errorBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.red, width: 3.0),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
         );
