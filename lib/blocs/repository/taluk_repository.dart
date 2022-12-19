@@ -13,4 +13,8 @@ class TalukRepository {
   Future<Result<List<Basic>>> getTaluks({required String districtId}) async {
     return await _client.getTaluks(stateId: districtId);
   }
+
+  Future<Result<List<Basic>>> getAllTaluks() async {
+    return await _client.getAllTaluks();
+  }
 }

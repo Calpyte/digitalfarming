@@ -131,7 +131,18 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                   hintText: 'Last Name',
                   validators: [
                     FormBuilderValidators.required(
-                        errorText: 'Please enter Last Name'),
+                      errorText: 'Please enter Last Name',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                NameTextField(
+                  name: 'fatherName',
+                  hintText: 'Father Name',
+                  validators: [
+                    FormBuilderValidators.required(
+                      errorText: 'Please enter father Name',
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -145,7 +156,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                   hintText: 'Mobile Number',
                 ),
                 const SizedBox(height: 10),
-                NumberTextField(
+                NameTextField(
                   name: 'email',
                   hintText: 'Email',
                   validators: [

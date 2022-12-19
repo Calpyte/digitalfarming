@@ -14,6 +14,8 @@ class TalukClient {
 
   static const getTalukPath = '/taluk/by-district?district=';
 
+  static const getAllTalukPath = '/taluk/taluks';
+
   ApiBaseHelper? _helper;
 
   Future<Result<List<Basic>>> getTaluks({required String stateId}) async {
@@ -31,4 +33,21 @@ class TalukClient {
       return Result.error(Constants.SERVER_ERROR);
     }
   }
+
+  Future<Result<List<Basic>>> getAllTaluks() async {
+    try {
+      String responseStr = await _helper?.get(getAllTalukPath);
+      List<dynamic> response = json.decode(responseStr);
+      List<Country> responseList = [];
+      for (var i = 0; i < response.length; i++) {
+        responseList.add(Country.fromJson(response[i]));
+      }
+      return Result.completed(responseList);
+    } on ApiException catch (e) {
+      return Result.error(e.message);
+    } catch (e) {
+      return Result.error(Constants.SERVER_ERROR);
+    }
+  }
+
 }
