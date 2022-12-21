@@ -1,0 +1,27 @@
+[
+  {
+    "id" : "farmerRegistration",
+    "label" : "Farmer Registration",
+    "route" : "/farmer-registration",
+    "icon" : "assets/images/farmer.png"
+  },
+  {
+    "id" : "landRegistration",
+    "label" : "Land Registration",
+    "route" : "/land-registration",
+    "icon" : "assets/images/heart.png"
+  },
+  {
+    "id" : "binRegistration",
+    "label" : "Bin Registration",
+    "route" : "/bin-registration",
+    "icon" : "assets/images/farmer.png"
+  },
+
+  {
+    "id" : "cropTransaction",
+    "label" : "Crop Transaction",
+    "route" : "/crop-transaction",
+    "icon" : "assets/images/farmer.png"
+  }
+]
