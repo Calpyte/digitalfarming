@@ -84,7 +84,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-
   validateAndLogin(BuildContext context) {
     if (_formKey.currentState?.saveAndValidate() ?? true) {
       Map<String, dynamic>? userValueMap = _formKey.currentState?.value;
@@ -94,9 +93,9 @@ class LoginScreen extends StatelessWidget {
     }
   }
 
-  void processLoginBloc(BuildContext context)  {
-    loginBloc.loginStream.listen((_snapshot) {
-      switch (_snapshot.status) {
+  void processLoginBloc(BuildContext context) {
+    loginBloc.loginStream.listen((snapshot) {
+      switch (snapshot.status) {
         case Status.loading:
           showLoadingDialog(context);
           break;
@@ -110,7 +109,4 @@ class LoginScreen extends StatelessWidget {
       }
     });
   }
-
-
-
 }
