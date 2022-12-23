@@ -33,4 +33,6 @@ class AppColors {
 
   static const Color splash_background = Color(0xff38b48c);
   static const Color splash_background2 = Color(0xff04766F);
+
+  static const Color red = Colors.red;
 }
