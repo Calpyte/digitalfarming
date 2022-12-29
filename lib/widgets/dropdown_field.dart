@@ -1,4 +1,3 @@
-import 'package:digitalfarming/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -23,21 +22,29 @@ class DropDownField extends FormBuilderDropdown {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: AppTheme.hintText,
-            enabledBorder: UnderlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                color: AppColors.green,
+                color: AppTheme.brandingColor,
                 width: 1.0,
               ),
               borderRadius: BorderRadius.circular(3),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: const BorderSide(color: Colors.green, width: 3.0),
+              borderSide:
+                  const BorderSide(color: AppTheme.brandingColor, width: 3.0),
               borderRadius: BorderRadius.circular(3),
             ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 3.0),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
               borderRadius: BorderRadius.circular(3),
             ),
+          ),
+          icon: const Icon(
+            Icons.arrow_circle_down,
+            color: AppTheme.brandingColor,
           ),
         );
 
