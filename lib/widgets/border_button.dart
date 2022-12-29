@@ -16,7 +16,7 @@ class BorderButton extends StatelessWidget {
       margin: EdgeInsets.only(left: width * 0.1, right: width * 0.1),
       width: width * 0.8,
       height: height * 0.06,
-      child: OutlinedButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         style: AppTheme.borderStyle,
         child: Text(

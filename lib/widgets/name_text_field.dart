@@ -23,19 +23,25 @@ class NameTextField extends FormBuilderTextField {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: AppTheme.hintText,
-            enabledBorder: UnderlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                color: AppColors.green,
+                color: AppTheme.brandingColor,
                 width: 1.0,
               ),
               borderRadius: BorderRadius.circular(3),
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: const BorderSide(color: Colors.green, width: 3.0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: AppTheme.brandingColor,
+                width: 1.0,
+              ),
               borderRadius: BorderRadius.circular(3),
             ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 3.0),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
               borderRadius: BorderRadius.circular(3),
             ),
           ),
