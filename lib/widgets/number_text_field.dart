@@ -20,14 +20,26 @@ class NumberTextField extends FormBuilderTextField {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: AppTheme.hintText,
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.green, width: 1.0),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: AppTheme.brandingColor,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(3),
             ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.green, width: 0.0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: AppTheme.brandingColor,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(3),
             ),
-            errorBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red, width: 0.0),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
           validator: FormBuilderValidators.compose(

@@ -21,6 +21,7 @@ class AppTheme {
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
+  static const Color brandingColor = Color(0xFF2C3B91);
 
   static const IconThemeData iconTheme =
       IconThemeData(color: AppTheme.dark_grey);
@@ -56,11 +57,38 @@ class AppTheme {
 
   static const TextStyle headline = TextStyle(
     // h5 -> headline
-    fontFamily: 'OpenSans',
+    fontFamily: 'Manrope',
     fontWeight: FontWeight.w600,
     fontSize: 20,
     letterSpacing: 0.27,
     color: darkerText,
+  );
+
+  static const TextStyle brandHeader = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Manrope',
+    fontWeight: FontWeight.w900,
+    fontSize: 25,
+    letterSpacing: 0.27,
+    color: brandingColor,
+  );
+
+  static const TextStyle brandLabel = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Manrope',
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    letterSpacing: 0.27,
+    color: brandingColor,
+  );
+
+  static const TextStyle brandSmallLabel = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Manrope',
+    fontWeight: FontWeight.w600,
+    fontSize: 15,
+    letterSpacing: 0.27,
+    color: brandingColor,
   );
 
   static const TextStyle menuHeader = TextStyle(
@@ -104,7 +132,7 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 18,
     letterSpacing: 0.18,
-    color: darkerText,
+    color: brandingColor,
   );
 
   static const TextStyle bodyThin = TextStyle(
@@ -243,11 +271,11 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 15,
     letterSpacing: 0.2,
-    color: Colors.grey,
+    color: brandingColor,
   );
 
   static const TabBarTheme tabBarTheme =
-  TabBarTheme(labelColor: AppColors.card_black, labelStyle: navigationItem);
+      TabBarTheme(labelColor: AppColors.card_black, labelStyle: navigationItem);
 
   static ButtonStyle invertedButtonStyle = ButtonStyle(
     backgroundColor: MaterialStateProperty.all<Color>(AppColors.white),
@@ -265,20 +293,17 @@ class AppTheme {
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
-        side: BorderSide(color: AppColors.blue),
+        side: const BorderSide(color: AppColors.blue),
       ),
     ),
   );
 
   static ButtonStyle borderStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all(brandingColor),
     shape: MaterialStateProperty.all(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
-          30.0,
-        ),
-        side: const BorderSide(
-          width: 5.0,
-          color: Colors.green,
+          5.0,
         ),
       ),
     ),

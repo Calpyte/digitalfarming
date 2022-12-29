@@ -17,7 +17,7 @@ class _SplashHeaderState extends State<SplashHeader> {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xff101a2f),
+        color: AppTheme.brandingColor,
         borderRadius: const BorderRadius.only(
           bottomRight: Radius.circular(100.0),
           bottomLeft: Radius.circular(100.0),

@@ -7,16 +7,17 @@ import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
-import 'package:digitalfarming/views/common/location_detail.dart';
-import 'package:digitalfarming/widgets/border_button.dart';
-import 'package:digitalfarming/widgets/dropdown_field.dart';
-import 'package:digitalfarming/widgets/name_text_field.dart';
-import 'package:digitalfarming/widgets/number_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:getwidget/getwidget.dart';
+
+import '../views/common/location_detail.dart';
+import '../views/common/personal_farmer.dart';
+import '../views/shadow_card.dart';
+import '../widgets/border_button.dart';
+import '../widgets/dropdown_field.dart';
 
 class FarmerRegistrationScreen extends StatefulWidget {
   static const routeName = '/farmer-registration';
@@ -87,19 +88,22 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          Constants.FARMER_REGISTRATION,
+          Constants.FARMER_DETAILS,
           style: AppTheme.body,
         ),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: SingleChildScrollView(
+        physics: const PageScrollPhysics(),
         child: _widgetForUIState(),
       ),
     );
   }
 
   Widget _widgetForUIState() {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     switch (_uiState) {
       case UIState.loading:
         return const Center(
@@ -111,101 +115,54 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
       case UIState.completed:
         return FormBuilder(
           key: _formKey,
-          child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 10),
-                NameTextField(
-                  name: 'name',
-                  hintText: 'First Name',
-                  validators: [
-                    FormBuilderValidators.required(
-                        errorText: 'Please enter First Name'),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                NameTextField(
-                  name: 'lastName',
-                  hintText: 'Last Name',
-                  validators: [
-                    FormBuilderValidators.required(
-                      errorText: 'Please enter Last Name',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                NameTextField(
-                  name: 'fatherName',
-                  hintText: 'Father Name',
-                  validators: [
-                    FormBuilderValidators.required(
-                      errorText: 'Please enter father Name',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                NameTextField(
-                  name: 'code',
-                  hintText: 'Farmer Code',
-                ),
-                const SizedBox(height: 10),
-                NumberTextField(
-                  name: 'mobileNumber',
-                  hintText: 'Mobile Number',
-                ),
-                const SizedBox(height: 10),
-                NameTextField(
-                  name: 'email',
-                  hintText: 'Email',
-                  validators: [
-                    FormBuilderValidators.required(
-                      errorText: 'Please enter Email',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                FormBuilderRadioGroup(
-                  validator: FormBuilderValidators.compose(
-                    [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: height * 0.05,
+              ),
+              ShadowCard(
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    Constants.PERSONAL_FARMER,
+                    style: AppTheme.brandHeader,
+                  ),
+                  SizedBox(height: height * 0.02),
+                  const PersonalFarmer(),
+                ],
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              ShadowCard(
+                children: [
+                  const Text(
+                    Constants.LOCATION_DETAILS,
+                    style: AppTheme.brandHeader,
+                  ),
+                  SizedBox(height: height * 0.02),
+                  const LocationDetail(),
+                  SizedBox(height: height * 0.02),
+                  DropDownField(
+                    name: 'group',
+                    items: getItems(groups),
+                    validators: [
                       FormBuilderValidators.required(
-                        errorText: 'Please select Gender',
-                      ),
+                          errorText: 'Please select Farmer Group'),
                     ],
+                    hintText: 'Farmer Group',
                   ),
-                  decoration: const InputDecoration(
-                    labelText: 'Gender',
-                    fillColor: Colors.green,
-                  ),
-                  name: 'gender',
-                  options: [
-                    'Male',
-                    'Female',
-                  ].map((lang) => FormBuilderFieldOption(value: lang)).toList(
-                        growable: false,
-                      ),
-                  activeColor: Colors.green,
-                ),
-                const SizedBox(height: 10),
-                const LocationDetail(),
-                const SizedBox(height: 10),
-                DropDownField(
-                  name: 'group',
-                  items: getItems(groups),
-                  validators: [
-                    FormBuilderValidators.required(
-                        errorText: 'Please select Farmer Group'),
-                  ],
-                  hintText: 'Farmer Group',
-                ),
-                const SizedBox(height: 10),
-                BorderButton(
-                  text: 'Submit',
-                  onPressed: () => validateAndSave(),
-                ),
-              ],
-            ),
+                ],
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              BorderButton(
+                text: 'Submit',
+                onPressed: () => validateAndSave(),
+              ),
+            ],
           ),
         );
 

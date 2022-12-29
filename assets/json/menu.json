@@ -16,5 +16,11 @@
     "label" : "Bin Registration",
     "route" : "/bin-registration",
     "icon" : "assets/images/farmer.png"
+  },
+  {
+    "id" : "procurement",
+    "label" : "Procurement",
+    "route" : "/procurement-screen",
+    "icon" : "assets/images/procurement.png"
   }
 ]

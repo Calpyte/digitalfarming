@@ -13,8 +13,19 @@ class Constants {
   //Loading Message
   static const LOADING_LOGIN = 'Logging In';
   static const FARMER_REGISTRATION = "Farmer Registration";
+  static const FARMER_DETAILS = "Farmer Informmation";
+  static const PERSONAL_FARMER = "Personal Informmation";
+  static const LOCATION_DETAILS = "Location Details";
+  static const CROP_DETAILS = "Crop Informmation";
   static const LAND_REGISTRATION = "Land Registration";
+  static const LAND_DETAIL = "Land Detail";
   static const BIN_REGISTRATION = "Bin Registration";
+  static const PROCUREMENT = "Procurement";
+  static const PROCUREMENT_INFO = "Procurement Information";
+  static const BIN_ADD = "Add To Bin";
+
+  static const INPUT_WEIGHT = "Input Weight";
+  static const AMOUNT = "Amount";
 
   static const LOADING = 'Loading';
   static const SERVER_ERROR = 'Server Error';
