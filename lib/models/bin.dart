@@ -7,18 +7,15 @@ class Bin {
   String? code;
   Basic? variety;
   Basic? grade;
-  Basic? agent;
-  bool? isActive;
 
-  Bin(
-      {this.id,
-      this.name,
-      this.tempBinId,
-      this.code,
-      this.variety,
-      this.grade,
-      this.agent,
-      this.isActive});
+  Bin({
+    this.id,
+    this.name,
+    this.tempBinId,
+    this.code,
+    this.variety,
+    this.grade,
+  });
 
   Bin.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,8 +24,15 @@ class Bin {
     code = json['code'];
     variety = json['variety'] != null ? Basic?.fromJson(json['variety']) : null;
     grade = json['grade'] != null ? Basic?.fromJson(json['grade']) : null;
-    agent = json['agent'] != null ? Basic?.fromJson(json['agent']) : null;
-    isActive = json['isActive'];
+  }
+
+  Bin.fromFormJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    tempBinId = json['tempBinId'];
+    code = json['code'];
+    variety = json['variety'];
+    grade = json['grade'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,8 +43,6 @@ class Bin {
     data['code'] = code;
     data['variety'] = variety!.toJson();
     data['grade'] = grade!.toJson();
-    data['agent'] = agent!.toJson();
-    data['isActive'] = isActive;
     return data;
   }
 }

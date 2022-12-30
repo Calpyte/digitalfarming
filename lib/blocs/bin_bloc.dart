@@ -18,6 +18,14 @@ class BinBloc {
   StreamSink get binSink => _binController.sink;
   Stream<Result> get binStream => _binController.stream;
 
+
+  Future<void> saveBin({required Bin bin}) async {
+    binSink.add(Result.loading(Constants.LOADING));
+    final Result<String> response =
+    await _binRepository.saveBin(bin: bin);
+    binSink.add(Result.completed(response));
+  }
+
   Future<void> getBins() async {
     binSink.add(Result.loading(Constants.LOADING));
     final Result<List<Bin>> response = await _binRepository.getBins();

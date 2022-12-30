@@ -9,6 +9,10 @@ class BinRepository {
 
   BinClient _client = BinClient();
 
+  Future<Result<String>> saveBin({required Bin bin}) async {
+    return await _client.saveBin(bin: bin);
+  }
+
   Future<Result<List<Bin>>> getBins() async {
     return await _client.getBins();
   }
