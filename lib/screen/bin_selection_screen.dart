@@ -3,6 +3,7 @@ import 'package:digitalfarming/blocs/procurement_bloc.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/bin.dart';
 import 'package:digitalfarming/resources/result.dart';
+import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
@@ -15,6 +16,7 @@ import 'package:getwidget/getwidget.dart';
 
 import '../models/procurement.dart';
 import '../resources/app_logger.dart';
+import '../utils/next_screen.dart';
 
 class BinSelectionScreen extends StatefulWidget {
   final Procurement procurement;
@@ -61,7 +63,7 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
             _uiState = UIState.completed;
           });
 
-          nextScreen(context, const HomeScreen());
+          nextScreen(context,  HomeScreen());
           break;
         case Status.error:
           GFToast.showToast('Internal Server Error', context);
@@ -104,9 +106,10 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
                   margin: EdgeInsets.only(top: height * 0.02),
                   width: width * 0.45,
                   height: height * 0.2,
-                  child: ViewBin(
-                    bin: bins[index],
+                  child: BinItemList(
+                    bins: bins,
                     selectedBin: selectedBin,
+                    onTap: () {},
                   ),
                 ),
               ),
