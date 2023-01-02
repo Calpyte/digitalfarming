@@ -7,15 +7,13 @@ import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
-import 'package:digitalfarming/views/loading_progress_indicator.dart';
-import 'package:digitalfarming/widgets/border_button.dart';
 import 'package:digitalfarming/widgets/bin_item_list.dart';
+import 'package:digitalfarming/widgets/border_button.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/getwidget.dart';
 
 import '../models/procurement.dart';
-import '../resources/app_logger.dart';
 import '../utils/next_screen.dart';
 
 class BinSelectionScreen extends StatefulWidget {
@@ -63,7 +61,7 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
             _uiState = UIState.completed;
           });
 
-          nextScreen(context,  HomeScreen());
+          nextScreen(context, HomeScreen());
           break;
         case Status.error:
           GFToast.showToast('Internal Server Error', context);
@@ -106,10 +104,52 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
                   margin: EdgeInsets.only(top: height * 0.02),
                   width: width * 0.45,
                   height: height * 0.2,
-                  child: BinItemList(
-                    bins: bins,
-                    selectedBin: selectedBin,
-                    onTap: () {},
+                  child: GFListTile(
+                    color: selectedBin == bins[index].id!
+                        ? AppTheme.brandingColor
+                        : Colors.white,
+                    description: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          bins[index].name ?? '',
+                          style: AppTheme.brandHeader.copyWith(
+                            fontSize: 20,
+                            color: selectedBin != bins[index].id!
+                                ? AppTheme.brandingColor
+                                : Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          '${bins[index].totalWeight} kg',
+                          style: AppTheme.brandLabel.copyWith(
+                            color: selectedBin != bins[index].id!
+                                ? AppTheme.brandingColor
+                                : Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          '${bins[index].variety?.name} | ${bins[index].grade?.name}',
+                          style: AppTheme.brandSmallLabel.copyWith(
+                            fontSize: 12,
+                            color: selectedBin != bins[index].id!
+                                ? AppTheme.brandingColor
+                                : Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        selectedBin = bins[index].id!;
+                      });
+                    },
                   ),
                 ),
               ),
