@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digitalfarming/models/Menu.dart';
+import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/routes.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,10 @@ class _CardMenuState extends State<CardMenu> {
               menus[index].icon ?? '',
               height: 30,
             ),
-            title: Text(menus[index].label ?? ''),
+            title: Text(
+              menus[index].label ?? '',
+              style: AppTheme.brandSmallLabel,
+            ),
             onTap: () => AppRouter.pushNamed(context, menus[index].route ?? ''),
           ),
         ),
@@ -46,20 +50,19 @@ class _CardMenuState extends State<CardMenu> {
     );
   }
 
-  Future<void> getMenu()  async {
-    Future<String> data =  DefaultAssetBundle.of(context)
-        .loadString("assets/json/menu.json");
+  Future<void> getMenu() async {
+    Future<String> data =
+        DefaultAssetBundle.of(context).loadString("assets/json/menu.json");
 
     data.then((value) {
-        List<dynamic> response = jsonDecode(value);
-        List<Menu> menuList = [];
-        for (var i = 0; i < response.length; i++) {
-          menuList.add(Menu.fromJson(response[i]));
-        }
-        setState(() {
-          menus = menuList;
-        });
+      List<dynamic> response = jsonDecode(value);
+      List<Menu> menuList = [];
+      for (var i = 0; i < response.length; i++) {
+        menuList.add(Menu.fromJson(response[i]));
+      }
+      setState(() {
+        menus = menuList;
+      });
     });
-
   }
 }

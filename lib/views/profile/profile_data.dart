@@ -11,9 +11,12 @@ class ProfileData extends StatelessWidget {
     return Container(
       height: height * 0.1,
       width: width,
-      color: const Color(0xff101a2f),
+      color: AppTheme.brandingColor,
       padding: EdgeInsets.only(
-          top: height * 0.04, left: width * 0.02, right: width * 0.02),
+        top: height * 0.04,
+        left: width * 0.02,
+        right: width * 0.02,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

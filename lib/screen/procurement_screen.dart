@@ -129,7 +129,7 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.05,
+                height: height * 0.02,
               ),
               ShadowCard(
                 children: [

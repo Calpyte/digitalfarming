@@ -13,7 +13,7 @@
   },
   {
     "id" : "binRegistration",
-    "label" : "Bin Registration",
+    "label" : "Bin Management",
     "route" : "/bin-registration",
     "icon" : "assets/images/bin.png"
   },

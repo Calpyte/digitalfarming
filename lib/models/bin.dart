@@ -7,6 +7,7 @@ class Bin {
   String? code;
   Basic? variety;
   Basic? grade;
+  double? totalWeight;
 
   Bin({
     this.id,
@@ -15,6 +16,7 @@ class Bin {
     this.code,
     this.variety,
     this.grade,
+    this.totalWeight,
   });
 
   Bin.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class Bin {
     code = json['code'];
     variety = json['variety'] != null ? Basic?.fromJson(json['variety']) : null;
     grade = json['grade'] != null ? Basic?.fromJson(json['grade']) : null;
+    totalWeight = json['totalWeight'];
   }
 
   Bin.fromFormJson(Map<String, dynamic> json) {
@@ -33,6 +36,7 @@ class Bin {
     code = json['code'];
     variety = json['variety'];
     grade = json['grade'];
+    totalWeight = json['totalWeight'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +47,7 @@ class Bin {
     data['code'] = code;
     data['variety'] = variety!.toJson();
     data['grade'] = grade!.toJson();
+    data['totalWeight'] = totalWeight;
     return data;
   }
 }

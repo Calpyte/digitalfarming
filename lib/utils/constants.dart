@@ -27,6 +27,7 @@ class Constants {
   static const LOADING = 'Loading';
   static const SERVER_ERROR = 'Server Error';
 
+
   static Decoration withShadow() {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(5.0),
