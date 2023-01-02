@@ -14,7 +14,6 @@ import 'package:digitalfarming/utils/ui_state.dart';
 import 'package:digitalfarming/views/common/search_crop.dart';
 import 'package:digitalfarming/views/common/search_farmer.dart';
 import 'package:digitalfarming/views/shadow_card.dart';
-import 'package:digitalfarming/widgets/name_text_field.dart';
 import 'package:digitalfarming/widgets/number_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -130,7 +129,7 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.05,
+                height: height * 0.02,
               ),
               ShadowCard(
                 children: [
@@ -174,7 +173,8 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
                     name: 'totalWeight',
                     validators: [
                       FormBuilderValidators.required(
-                          errorText: 'Please enter Input Weight'),
+                        errorText: 'Please enter Input Weight',
+                      ),
                     ],
                   ),
                   SizedBox(height: height * 0.02),
