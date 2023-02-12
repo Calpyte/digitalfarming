@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_import
 
-import 'package:digitalfarming/utils/app_colors.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

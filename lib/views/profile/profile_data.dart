@@ -1,3 +1,5 @@
+import 'package:digitalfarming/blocs/farmer_bloc.dart';
+import 'package:digitalfarming/blocs/offline_download_bloc.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -19,14 +21,24 @@ class ProfileData extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Hi!! Enumerator',
                 style: AppTheme.body3White,
               ),
-              Icon(
-                Icons.logout_sharp,
-                color: Colors.white,
+              IconButton(
+                icon: const Icon(
+                  Icons.sync,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  OfflineDownloadBloc offlineDownloadBloc =
+                      OfflineDownloadBloc();
+                  FarmerBloc farmerBloc = FarmerBloc();
+                  offlineDownloadBloc.getOfflineData();
+                  farmerBloc.saveOfflineFarmer();
+                },
               ),
             ],
           ),

@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:digitalfarming/models/Basic.dart';
-import 'package:digitalfarming/models/country.dart';
-import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/models/land.dart';
 import 'package:digitalfarming/models/pagination.dart';
 import 'package:digitalfarming/models/table_response.dart';

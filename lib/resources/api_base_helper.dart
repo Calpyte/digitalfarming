@@ -9,7 +9,10 @@ import 'package:digitalfarming/resources/interceptors/expired_token_policy.dart'
 import 'package:digitalfarming/resources/interceptors/log_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
+// ignore: depend_on_referenced_packages
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
@@ -17,10 +20,6 @@ import 'auth_interceptor.dart';
 import 'auth_token_repository.dart';
 import 'env_repository.dart';
 import 'platform_info_repository.dart';
-
-import 'package:http/http.dart' as http;
-// ignore: depend_on_referenced_packages
-import 'package:http_parser/http_parser.dart';
 
 class ApiBaseHelper {
   ApiBaseHelper({

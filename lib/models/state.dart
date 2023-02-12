@@ -13,6 +13,7 @@ class State extends Basic {
   }
   Country? country;
 
+  @override
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (country != null) {

@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:digitalfarming/blocs/repository/district_repository.dart';
 import 'package:digitalfarming/blocs/repository/group_repository.dart';
-import 'package:digitalfarming/blocs/repository/taluk_repository.dart';
-import 'package:digitalfarming/blocs/repository/village_repository.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/result.dart';

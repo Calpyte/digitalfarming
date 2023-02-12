@@ -7,7 +7,7 @@ import '../../utils/app_theme.dart';
 
 class PasswordTextField extends FormBuilderTextField {
   PasswordTextField(
-      {this.hintText,
+      {super.key, this.hintText,
       this.textEditingController,
       required this.name,
       this.validators,

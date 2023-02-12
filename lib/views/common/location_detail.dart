@@ -3,7 +3,7 @@ import 'package:digitalfarming/blocs/district_bloc.dart';
 import 'package:digitalfarming/blocs/state_bloc.dart';
 import 'package:digitalfarming/blocs/taluk_bloc.dart';
 import 'package:digitalfarming/blocs/village_bloc.dart';
-import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/location.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/widgets/dropdown_field.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +23,11 @@ class _LocationDetailState extends State<LocationDetail> {
   TalukBloc? talukBloc;
   VillageBloc? villageBloc;
 
-  List<Basic> countries = [];
-  List<Basic> states = [];
-  List<Basic> districts = [];
-  List<Basic> taluks = [];
-  List<Basic> villages = [];
+  List<Location> countries = [];
+  List<Location> states = [];
+  List<Location> districts = [];
+  List<Location> taluks = [];
+  List<Location> villages = [];
 
   @override
   initState() {
@@ -154,7 +154,7 @@ class _LocationDetailState extends State<LocationDetail> {
     );
   }
 
-  List<DropdownMenuItem> getItems(List<Basic> options) {
+  List<DropdownMenuItem> getItems(List<dynamic> options) {
     return List.generate(
       options.length,
       (index) => DropdownMenuItem(

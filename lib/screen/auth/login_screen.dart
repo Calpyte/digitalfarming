@@ -1,4 +1,5 @@
 import 'package:digitalfarming/blocs/login_bloc.dart';
+import 'package:digitalfarming/blocs/offline_download_bloc.dart';
 import 'package:digitalfarming/models/login.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
@@ -94,7 +95,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   void processLoginBloc(BuildContext context) {
-    loginBloc.loginStream.listen((snapshot) {
+    loginBloc.loginStream.listen((snapshot) async {
       switch (snapshot.status) {
         case Status.loading:
           showLoadingDialog(context);
@@ -103,6 +104,8 @@ class LoginScreen extends StatelessWidget {
           dismissDialog(context);
           break;
         case Status.completed:
+          OfflineDownloadBloc offlineDownloadBloc = OfflineDownloadBloc();
+          await offlineDownloadBloc.getOfflineData();
           dismissDialog(context);
           AppRouter.removeAllAndPush(context, HomeScreen.routeName);
           break;

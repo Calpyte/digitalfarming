@@ -1,11 +1,6 @@
 import 'dart:async';
 
-import 'package:digitalfarming/blocs/repository/district_repository.dart';
 import 'package:digitalfarming/blocs/repository/farmer_repository.dart';
-import 'package:digitalfarming/blocs/repository/group_repository.dart';
-import 'package:digitalfarming/blocs/repository/taluk_repository.dart';
-import 'package:digitalfarming/blocs/repository/village_repository.dart';
-import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/models/pagination.dart';
 import 'package:digitalfarming/models/search_criteria.dart';
@@ -28,6 +23,20 @@ class FarmerBloc {
     final Result<String> response =
         await _farmerRepository.saveFarmer(farmer: farmer);
     farmerSink.add(Result.completed(response));
+  }
+
+  Future<void> saveOfflineFarmer() async {
+    farmerSink.add(Result.loading(Constants.LOADING));
+    final Result<String> response =
+    await _farmerRepository.saveOfflineFarmer();
+    farmerSink.add(Result.completed(response));
+  }
+
+  Future<void> getOfflineFarmers() async{
+    farmerSink.add(Result.loading(Constants.LOADING));
+    final Result<List<dynamic>> response =
+    await _farmerRepository.getOfflineFarmers();
+    farmerSink.add(response);
   }
 
   Future<void> getFarmer(List<SearchCriteria> criterias) async {

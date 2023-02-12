@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:digitalfarming/blocs/repository/district_repository.dart';
-import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/location.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
@@ -18,7 +18,7 @@ class DistrictBloc {
 
   Future<void> getDistricts({required String stateId}) async {
     districtSink.add(Result.loading(Constants.LOADING));
-    final Result<List<Basic>> response =
+    final Result<List<Location>> response =
         await _districtRepository.getDistricts(stateId: stateId);
     districtSink.add(response);
   }

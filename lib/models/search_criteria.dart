@@ -14,11 +14,11 @@ class SearchCriteria{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['operation'] = this.operation;
-    data['value'] = this.value;
-    data['orPredicate'] = this.orPredicate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['operation'] = operation;
+    data['value'] = value;
+    data['orPredicate'] = orPredicate;
     return data;
   }
 }

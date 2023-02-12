@@ -65,6 +65,7 @@ class _SearchCropState extends State<SearchCrop> {
       switch (snapshot.status) {
         case Status.completed:
           setState(() {
+            grades.clear();
             grades = snapshot.data;
             if (grades.isNotEmpty) {
               selectedGrade = grades[0].id!;
@@ -97,6 +98,10 @@ class _SearchCropState extends State<SearchCrop> {
                   ],
                   hintText: 'Product',
                   onChanged: (product) {
+                    setState(() {
+                      varities.clear();
+                      grades.clear();
+                    });
                     varietyBloc?.getVarieties(
                       productId: product?.id,
                     );
@@ -106,14 +111,14 @@ class _SearchCropState extends State<SearchCrop> {
                   }),
               const SizedBox(width: double.infinity, height: 20),
               DropDownField(
-                  name: 'variety',
-                  items: getItems(varities),
-                  validators: [
-                    FormBuilderValidators.required(
-                        errorText: 'Please select Variety'),
-                  ],
-                  hintText: 'Variety',
-                  ),
+                name: 'variety',
+                items: getItems(varities),
+                validators: [
+                  FormBuilderValidators.required(
+                      errorText: 'Please select Variety'),
+                ],
+                hintText: 'Variety',
+              ),
               const SizedBox(width: double.infinity, height: 20),
               DropDownField(
                 name: 'grade',

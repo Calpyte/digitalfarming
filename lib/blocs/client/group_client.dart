@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:digitalfarming/models/Basic.dart';
-import 'package:digitalfarming/models/country.dart';
 import 'package:digitalfarming/resources/api_base_helper.dart';
 import 'package:digitalfarming/resources/api_exception.dart';
 import 'package:digitalfarming/resources/result.dart';

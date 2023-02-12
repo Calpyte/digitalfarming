@@ -4,9 +4,9 @@ import 'package:digitalfarming/models/token.dart';
 import 'package:digitalfarming/resources/auth_token_repository.dart';
 import 'package:digitalfarming/resources/env_repository.dart';
 import 'package:digitalfarming/resources/refresh_token_repository.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_interceptor/models/response_data.dart';
 import 'package:http_interceptor/models/retry_policy.dart';
-import 'package:http/http.dart' as http;
 
 
 class ExpiredTokenRetryPolicy extends RetryPolicy {

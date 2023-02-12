@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -14,21 +16,30 @@ class Constants {
   static const LOADING_LOGIN = 'Logging In';
   static const FARMER_REGISTRATION = "Farmer Registration";
   static const FARMER_DETAILS = "Farmer Informmation";
+  static const FARMER = "Farmer";
+  static const VARIETY = "Variety";
   static const PERSONAL_FARMER = "Personal Informmation";
   static const LOCATION_DETAILS = "Location Details";
   static const CROP_DETAILS = "Crop Informmation";
   static const LAND_REGISTRATION = "Land Registration";
   static const LAND_DETAIL = "Land Detail";
   static const BIN_REGISTRATION = "Bin Registration";
+  static const BIN_SCREEN = "Bins";
   static const PROCUREMENT = "Procurement";
   static const PROCUREMENT_INFO = "Procurement Information";
   static const BIN_ADD = "Add To Bin";
+  static const BIN_MANAGEMENT = "Bin Management";
+  static const All_BINS = "All bins";
 
   static const INPUT_WEIGHT = "Input Weight";
   static const AMOUNT = "Amount";
 
   static const LOADING = 'Loading';
   static const SERVER_ERROR = 'Server Error';
+
+  static const ADD_NEW_BIN = "Create New Bin";
+  static const RECONCILE_BIN = "Reconcile Bin";
+  static const CULTIVATION = "Cultivation";
 
   static Decoration withShadow() {
     return BoxDecoration(

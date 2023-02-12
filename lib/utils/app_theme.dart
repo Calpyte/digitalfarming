@@ -21,7 +21,8 @@ class AppTheme {
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
-  static const Color brandingColor = Color(0xFF2C3B91);
+  //static const Color brandingColor = Color(0xFF2C3B91);
+  static const Color brandingColor = Colors.green;
 
   static const IconThemeData iconTheme =
       IconThemeData(color: AppTheme.dark_grey);
@@ -73,6 +74,15 @@ class AppTheme {
     color: brandingColor,
   );
 
+  static const TextStyle brandHeader2 = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Manrope',
+    fontWeight: FontWeight.w900,
+    fontSize: 18,
+    letterSpacing: 0.27,
+    color: brandingColor,
+  );
+
   static const TextStyle brandLabel = TextStyle(
     // h5 -> headline
     fontFamily: 'Manrope',
@@ -87,6 +97,15 @@ class AppTheme {
     fontFamily: 'Manrope',
     fontWeight: FontWeight.w600,
     fontSize: 15,
+    letterSpacing: 0.27,
+    color: brandingColor,
+  );
+
+  static const TextStyle brandMiniLabel = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Manrope',
+    fontWeight: FontWeight.w600,
+    fontSize: 13,
     letterSpacing: 0.27,
     color: brandingColor,
   );

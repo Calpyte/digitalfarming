@@ -1,4 +1,5 @@
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/bin_contributions.dart';
 
 class Bin {
   String? id;
@@ -7,18 +8,19 @@ class Bin {
   String? code;
   Basic? variety;
   Basic? grade;
-  Basic? agent;
-  bool? isActive;
+  double? totalWeight;
+  List<BinContribution>? contributions;
 
-  Bin(
-      {this.id,
-      this.name,
-      this.tempBinId,
-      this.code,
-      this.variety,
-      this.grade,
-      this.agent,
-      this.isActive});
+  Bin({
+    this.id,
+    this.name,
+    this.tempBinId,
+    this.code,
+    this.variety,
+    this.grade,
+    this.totalWeight,
+    this.contributions,
+  });
 
   Bin.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,8 +29,29 @@ class Bin {
     code = json['code'];
     variety = json['variety'] != null ? Basic?.fromJson(json['variety']) : null;
     grade = json['grade'] != null ? Basic?.fromJson(json['grade']) : null;
-    agent = json['agent'] != null ? Basic?.fromJson(json['agent']) : null;
-    isActive = json['isActive'];
+    totalWeight = json['totalWeight'];
+    if (json['contributions'] != null) {
+      contributions = <BinContribution>[];
+      json['contributions'].forEach((v) {
+        contributions!.add(BinContribution.fromJson(v));
+      });
+    }
+  }
+
+  Bin.fromFormJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    tempBinId = json['tempBinId'];
+    code = json['code'];
+    variety = json['variety'];
+    grade = json['grade'];
+    totalWeight = json['totalWeight'];
+    if (json['contributions'] != null) {
+      contributions = <BinContribution>[];
+      json['contributions'].forEach((v) {
+        contributions!.add(BinContribution.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -39,8 +62,10 @@ class Bin {
     data['code'] = code;
     data['variety'] = variety!.toJson();
     data['grade'] = grade!.toJson();
-    data['agent'] = agent!.toJson();
-    data['isActive'] = isActive;
+    data['totalWeight'] = totalWeight;
+    if (contributions != null) {
+      data['contributions'] = contributions!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

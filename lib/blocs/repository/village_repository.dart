@@ -1,5 +1,3 @@
-import 'package:digitalfarming/blocs/client/district_client.dart';
-import 'package:digitalfarming/blocs/client/taluk_client.dart';
 import 'package:digitalfarming/blocs/client/village_client.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/resources/result.dart';

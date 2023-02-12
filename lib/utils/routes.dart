@@ -1,4 +1,6 @@
 import 'package:digitalfarming/screen/bin_registration_screen.dart';
+import 'package:digitalfarming/screen/bin_screen.dart';
+import 'package:digitalfarming/screen/cultivation_screen.dart';
 import 'package:digitalfarming/screen/farmer_registration_screen.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/screen/land_registration_screen.dart';
@@ -36,7 +38,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ProcurementScreen(),
         );
-
+      case BinScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const BinScreen(),
+        );
+      case CultivationScreen.routeName:
+        return MaterialPageRoute(
+          builder: (_) => const CultivationScreen(),
+        );
       default:
         return null;
     }

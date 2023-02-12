@@ -138,8 +138,8 @@ class _LandRegistrationScreenState extends State<LandRegistrationScreen> {
         List.generate(intermediatePoints.length, (index) {
           seq++;
           coordinates.add(FarmCoordinates(
-            latitude: intermediatePoints[index]?.latitude,
-            longitude: intermediatePoints[index]?.longitude,
+            latitude: intermediatePoints[index].latitude,
+            longitude: intermediatePoints[index].longitude,
             sequenceNumber: seq,
           ));
         });

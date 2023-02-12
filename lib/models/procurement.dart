@@ -1,5 +1,4 @@
 import 'package:digitalfarming/models/Basic.dart';
-import 'package:digitalfarming/models/bin.dart';
 
 class Procurement {
   String? id;

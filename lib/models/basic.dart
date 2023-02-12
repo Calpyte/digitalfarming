@@ -4,7 +4,7 @@ class Basic {
     this.name,
   });
 
-  Basic.fromJson(Map<String, dynamic> json) {
+  Basic.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
@@ -12,8 +12,8 @@ class Basic {
   String? id;
   String? name;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
+  Map<dynamic, dynamic> toJson() {
+    final map = <dynamic, dynamic>{};
     map['id'] = id;
     map['name'] = name;
     return map;

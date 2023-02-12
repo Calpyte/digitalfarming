@@ -176,7 +176,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
     }
   }
 
-  List<DropdownMenuItem> getItems(List<Basic> options) {
+  List<DropdownMenuItem> getItems(List<dynamic> options) {
     return List.generate(
       options.length,
       (index) => DropdownMenuItem(

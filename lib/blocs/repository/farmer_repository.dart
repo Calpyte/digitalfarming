@@ -1,12 +1,6 @@
-import 'package:digitalfarming/blocs/client/district_client.dart';
 import 'package:digitalfarming/blocs/client/farmer_client.dart';
-import 'package:digitalfarming/blocs/client/group_client.dart';
-import 'package:digitalfarming/blocs/client/taluk_client.dart';
-import 'package:digitalfarming/blocs/client/village_client.dart';
-import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/models/pagination.dart';
-import 'package:digitalfarming/models/search_criteria.dart';
 import 'package:digitalfarming/models/table_response.dart';
 import 'package:digitalfarming/resources/result.dart';
 
@@ -21,8 +15,18 @@ class FarmerRepository {
     return await _client.saveFarmer(farmer: farmer);
   }
 
+
+  Future<Result<String>> saveOfflineFarmer() async {
+    return await _client.saveOfflineFarmer();
+  }
+
   Future<Result<TableResponse>> getFarmer(Pagination pagination) async {
     return await _client.getFarmers(pagination: pagination);
   }
+
+  Future<Result<List>> getOfflineFarmers() async {
+    return await _client.getOfflineFarmers();
+  }
+
 
 }

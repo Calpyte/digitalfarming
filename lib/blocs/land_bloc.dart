@@ -1,13 +1,6 @@
 import 'dart:async';
 
-import 'package:digitalfarming/blocs/repository/district_repository.dart';
-import 'package:digitalfarming/blocs/repository/farmer_repository.dart';
-import 'package:digitalfarming/blocs/repository/group_repository.dart';
 import 'package:digitalfarming/blocs/repository/land_repository.dart';
-import 'package:digitalfarming/blocs/repository/taluk_repository.dart';
-import 'package:digitalfarming/blocs/repository/village_repository.dart';
-import 'package:digitalfarming/models/Basic.dart';
-import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/models/land.dart';
 import 'package:digitalfarming/models/pagination.dart';
 import 'package:digitalfarming/models/search_criteria.dart';
