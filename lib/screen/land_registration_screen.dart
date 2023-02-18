@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:digitalfarming/blocs/land_bloc.dart';
 import 'package:digitalfarming/models/LatLon.dart';
 import 'package:digitalfarming/models/farm_coordinates.dart';
 import 'package:digitalfarming/models/land.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,7 @@ import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/position/gf_toast_position.dart';
 import 'package:getwidget/types/gf_loader_type.dart';
+import 'package:uuid/uuid.dart';
 
 import '../resources/app_logger.dart';
 import '../resources/result.dart';
@@ -48,6 +52,31 @@ class _LandRegistrationScreenState extends State<LandRegistrationScreen> {
 
   getMasters() {
     landBloc = LandBloc();
+
+    landBloc?.landStream.listen((snapshot) {
+      switch (snapshot.status) {
+        case Status.loading:
+          setState(() {
+            _uiState = UIState.loading;
+          });
+          break;
+        case Status.completed:
+          GFToast.showToast('Land Saved Successfully', context,
+              toastPosition: GFToastPosition.BOTTOM);
+          setState(() {
+            _uiState = UIState.completed;
+          });
+
+          Navigator.pop(context);
+          break;
+        case Status.error:
+          GFToast.showToast('Internal Server Error', context);
+          setState(() {
+            _uiState = UIState.error;
+          });
+          break;
+      }
+    });
   }
 
   @override
@@ -120,6 +149,11 @@ class _LandRegistrationScreenState extends State<LandRegistrationScreen> {
     if (_formKey.currentState?.saveAndValidate() ?? true) {
       LatLon latLon = await getLocation();
       Map<String, dynamic>? landValueMap = _formKey.currentState?.value;
+
+      setState(() {
+        _uiState = UIState.loading;
+      });
+
       Land land = Land.fromFormJson(landValueMap!);
       land.latitude = latLon.latitude;
       land.longitude = latLon.longitude;
@@ -153,32 +187,14 @@ class _LandRegistrationScreenState extends State<LandRegistrationScreen> {
         land.farmCoordinates = coordinates;
       }
 
-      landBloc?.saveLand(land: land);
+      var uuid = Uuid();
+      Map finalMap = Map.of(land.toJson());
+      finalMap!['tempFarmId'] = uuid.v4();
+      finalMap!['isSynced'] = false;
 
-      landBloc?.landStream.listen((snapshot) {
-        switch (snapshot.status) {
-          case Status.loading:
-            setState(() {
-              _uiState = UIState.loading;
-            });
-            break;
-          case Status.completed:
-            GFToast.showToast('Land Saved Successfully', context,
-                toastPosition: GFToastPosition.BOTTOM);
-            setState(() {
-              _uiState = UIState.completed;
-            });
-
-            Navigator.pop(context);
-            break;
-          case Status.error:
-            GFToast.showToast('Internal Server Error', context);
-            setState(() {
-              _uiState = UIState.error;
-            });
-            break;
-        }
-      });
+      HiveRepository hiveRepository = HiveRepository();
+      String farmerObj = json.encode(finalMap);
+      hiveRepository.saveLand(farmerObj, finalMap['tempFarmId']);
     }
   }
 

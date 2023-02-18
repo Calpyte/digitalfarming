@@ -1,17 +1,26 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:digitalfarming/blocs/farmer_bloc.dart';
 import 'package:digitalfarming/blocs/group_bloc.dart';
+import 'package:digitalfarming/blocs/image_bloc.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/LatLon.dart';
 import 'package:digitalfarming/models/farmer.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
+import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
+import 'package:digitalfarming/utils/routes.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 import '../views/common/location_detail.dart';
 import '../views/common/personal_farmer.dart';
@@ -34,7 +43,10 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   GroupBloc? groupBloc;
   FarmerBloc? farmerBloc;
+  XFile? farmerPhoto;
   UIState _uiState = UIState.completed;
+  String? imageId;
+  ImageBloc imageBloc = ImageBloc();
 
   @override
   initState() {
@@ -70,6 +82,28 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
           });
 
           Navigator.pop(context);
+          break;
+        case Status.error:
+          GFToast.showToast('Internal Server Error', context);
+          setState(() {
+            _uiState = UIState.error;
+          });
+          break;
+      }
+    });
+
+    imageBloc?.imageStream.listen((snapshot) {
+      switch (snapshot.status) {
+        case Status.loading:
+          setState(() {
+            _uiState = UIState.loading;
+          });
+          break;
+        case Status.completed:
+          Result<String> resultData = snapshot.data;
+          setState(() {
+            imageId = resultData.data;
+          });
           break;
         case Status.error:
           GFToast.showToast('Internal Server Error', context);
@@ -121,6 +155,35 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
               SizedBox(
                 height: height * 0.05,
               ),
+              Center(
+                child: InkWell(
+                  onTap: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? photo =
+                        await picker.pickImage(source: ImageSource.camera);
+                    setState(() {
+                      farmerPhoto = photo;
+                    });
+                  },
+                  child: GFAvatar(
+                    size: 50,
+                    backgroundColor: Colors.white,
+                    child: farmerPhoto == null
+                        ? const Icon(Icons.camera_alt)
+                        : GFImageOverlay(
+                            height: 200,
+                            width: 200,
+                            shape: BoxShape.circle,
+                            image: FileImage(
+                              File(farmerPhoto!.path),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
               ShadowCard(
                 children: [
                   const SizedBox(height: 10),
@@ -149,7 +212,8 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                     items: getItems(groups),
                     validators: [
                       FormBuilderValidators.required(
-                          errorText: 'Please select Farmer Group'),
+                        errorText: 'Please select Farmer Group',
+                      ),
                     ],
                     hintText: 'Farmer Group',
                   ),
@@ -188,12 +252,34 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
 
   validateAndSave() async {
     if (_formKey.currentState?.saveAndValidate() ?? true) {
-      LatLon latLon = await getLocation();
       Map<String, dynamic>? farmerValueMap = _formKey.currentState?.value;
-      Farmer farmer = Farmer.fromFormJson(farmerValueMap!);
-      farmer.latitude = latLon.latitude;
-      farmer.longitude = latLon.longitude;
-      farmerBloc?.saveFarmer(farmer: farmer);
+      setState(() {
+        _uiState = UIState.loading;
+      });
+      var uuid = Uuid();
+
+      LatLon latLon = await getLocation();
+      Map finalMap = Map.of(farmerValueMap!);
+      finalMap!['tempFarmerId'] = uuid.v4();
+      finalMap!['isSynced'] = false;
+      if (farmerPhoto != null) {
+        finalMap!['imagePath'] = farmerPhoto!.path;
+      }
+      finalMap!['latitude'] = latLon.latitude;
+      finalMap!['longitude'] = latLon.longitude;
+
+      HiveRepository hiveRepository = HiveRepository();
+      String farmerObj = json.encode(finalMap);
+      hiveRepository.saveFarmer(farmerObj, finalMap['tempFarmerId']);
+
+      GFToast.showToast('Farmer Saved Successfully', context,
+          toastPosition: GFToastPosition.BOTTOM);
+
+      AppRouter.removeAllAndPush(context, HomeScreen.routeName);
+    } else {
+      setState(() {
+        _uiState = UIState.completed;
+      });
     }
   }
 

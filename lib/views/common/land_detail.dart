@@ -1,3 +1,4 @@
+import 'package:digitalfarming/models/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -28,8 +29,8 @@ class _LandDetailState extends State<LandDetail> {
   final _formKey = GlobalKey<FormBuilderState>();
   final logger = AppLogger.get('LandDetail');
 
-  List<Basic> taluks = [];
-  List<Basic> villages = [];
+  List<Location> taluks = [];
+  List<Location> villages = [];
   List<Basic> farmers = [];
 
   TalukBloc? talukBloc;
@@ -239,7 +240,7 @@ class _LandDetailState extends State<LandDetail> {
     );
   }
 
-  List<DropdownMenuItem> getItems(List<Basic> options) {
+  List<DropdownMenuItem> getItems(List<dynamic> options) {
     return List.generate(
       options.length,
       (index) => DropdownMenuItem(

@@ -1,6 +1,8 @@
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
+import 'package:digitalfarming/views/common/personal_farmer.dart';
+import 'package:digitalfarming/views/shadow_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -24,6 +26,9 @@ class _CultivationScreenState extends State<CultivationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -33,13 +38,31 @@ class _CultivationScreenState extends State<CultivationScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        children: [],
+      body: SingleChildScrollView(
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.03,
+              ),
+              ShadowCard(
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    Constants.PERSONAL_FARMER,
+                    style: AppTheme.brandHeader,
+                  ),
+                  SizedBox(height: height * 0.02),
+
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  getMasters() {
-
-  }
+  getMasters() {}
 }

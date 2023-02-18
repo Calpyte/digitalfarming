@@ -126,6 +126,26 @@ class ApiBaseHelper {
     }
   }
 
+  Future<dynamic> postMultipart(bool authenticated, String path, dynamic body) async {
+    final String platformHeader = await getPlatformHeader();
+    final String? deviceId = await _getId();
+    var url = Uri.parse(_baseApiUrl + path);
+    try {
+      final response = await _client(authenticated).post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'x-wstexchng-platform': platformHeader,
+            'x-uid': deviceId ?? ""
+          },
+          body: json.encode(body));
+      return _getResponseBody(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    } on TimeoutException {
+      throw ConnectionTimeoutException('Connection timed out');
+    }
+  }
+
   Future<dynamic> uploadFile(
       bool authenticated, XFile? pickedFile, String path) async {
     final String platformHeader = await getPlatformHeader();

@@ -26,7 +26,7 @@ class TalukBloc {
 
   Future<void> getAllTaluks() async {
     talukSink.add(Result.loading(Constants.LOADING));
-    final Result<List<Basic>> response = await _talukRepository.getAllTaluks();
+    final Result<List<Location>> response = await _talukRepository.getAllTaluks();
     talukSink.add(response);
   }
 

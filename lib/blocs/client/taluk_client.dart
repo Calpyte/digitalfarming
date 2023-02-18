@@ -27,19 +27,10 @@ class TalukClient {
     return Result.completed(responseList);
   }
 
-  Future<Result<List<Basic>>> getAllTaluks() async {
-    try {
-      String responseStr = await _helper?.get(getAllTalukPath);
-      List<dynamic> response = json.decode(responseStr);
-      List<Country> responseList = [];
-      for (var i = 0; i < response.length; i++) {
-        responseList.add(Country.fromJson(response[i]));
-      }
-      return Result.completed(responseList);
-    } on ApiException catch (e) {
-      return Result.error(e.message);
-    } catch (e) {
-      return Result.error(Constants.SERVER_ERROR);
-    }
+  Future<Result<List<Location>>> getAllTaluks() async {
+    HiveRepository hiveRepository = HiveRepository();
+    List<Location> responseList =
+    await hiveRepository.findAllTaluks();
+    return Result.completed(responseList);
   }
 }

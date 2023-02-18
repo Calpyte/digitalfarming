@@ -1,4 +1,5 @@
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/location.dart';
 
 class Farmer {
   String? id;
@@ -8,10 +9,11 @@ class Farmer {
   String? mobileNumber;
   String? email;
   String? gender;
-  Basic? village;
+  Location? village;
   Basic? group;
   double? latitude;
   double? longitude;
+  String? image;
 
   Farmer(
       {this.id,
@@ -24,7 +26,9 @@ class Farmer {
       this.village,
       this.group,
       this.latitude,
-      this.longitude});
+      this.longitude,
+        this.image,
+      });
 
   Farmer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -34,10 +38,11 @@ class Farmer {
     mobileNumber = json['mobileNumber'];
     email = json['email'];
     gender = json['gender'];
-    village = json['village'] != null ? Basic.fromJson(json['village']) : null;
+    village = json['village'] != null ? Location.fromJson(json['village']) : null;
     group = json['group'] != null ? Basic.fromJson(json['group']) : null;
     latitude = json['latitude'];
     longitude = json['longitude'];
+    image = json['image'];
   }
 
   Farmer.fromFormJson(Map<String, dynamic> json) {
@@ -47,11 +52,11 @@ class Farmer {
     code = json['code'];
     mobileNumber = json['mobileNumber'];
     email = json['email'];
-    gender = json['gender'];
     village = json['village'];
     group = json['group'];
     latitude = json['latitude'];
     longitude = json['longitude'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +68,7 @@ class Farmer {
     data['mobileNumber'] = mobileNumber;
     data['email'] = email;
     data['gender'] = gender;
+    data['image'] = image;
     if (village != null) {
       data['village'] = village!.toJson();
     }

@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:digitalfarming/blocs/client/image_client.dart';
 import 'package:digitalfarming/launch_setup.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/catalogue.dart';
 import 'package:digitalfarming/models/variety.dart';
+import 'package:digitalfarming/resources/result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/location.dart';
@@ -23,6 +26,8 @@ class HiveRepository implements LaunchSetupMember {
   }
 
   static final HiveRepository _singleton = HiveRepository._internal();
+
+  ImageClient imageClient = ImageClient();
 
   BoxCollection? boxCollection;
   Set<String> boxNames = {};
@@ -134,6 +139,22 @@ class HiveRepository implements LaunchSetupMember {
     return [];
   }
 
+  Future<List<Location>> findAllTaluks() async {
+    if (boxCollection != null) {
+      final talukBox = await boxCollection?.openBox<Map>('taluk');
+      Map<String, Map>? taluks = await talukBox?.getAllValues();
+      int len = taluks?.length ?? 0;
+      List<Location> talukList = [];
+      for (var i = 0; i < len; i++) {
+        talukList.add(Location.fromJson(taluks!.values.elementAt(i)));
+      }
+
+      return talukList;
+    }
+    return [];
+  }
+
+
   Future<List<Location>> findAllVillage({required String talukId}) async {
     if (boxCollection != null) {
       final villageBox = await boxCollection?.openBox<Map>('village');
@@ -238,6 +259,14 @@ class HiveRepository implements LaunchSetupMember {
     }
   }
 
+  Future saveLand(String farm, String tempFarmId) async {
+    if (boxCollection != null) {
+      final farmerBox = await boxCollection?.openBox<Map>('farm');
+      Map valueMap = json.decode(farm);
+      await farmerBox?.put(tempFarmId, valueMap);
+    }
+  }
+
   Future<Map?> getFarmers() async {
     if (boxCollection != null) {
       final farmerBox = await boxCollection?.openBox<Map>('farmer');
@@ -247,6 +276,11 @@ class HiveRepository implements LaunchSetupMember {
       for(MapEntry farmer in farmers!.entries){
         if(farmer.value['isSynced'] ?? false){
           availableKeys.add(farmer.key);
+        }
+
+        if(farmer.value['imagePath'] != null || farmer.value['imagePath'] != ''){
+          Result<String> imageResult = await imageClient.savePhoto(photo: XFile(farmer.value['imagePath']));
+          farmer.value['image'] = imageResult.data;
         }
       }
 

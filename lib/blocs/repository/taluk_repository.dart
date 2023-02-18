@@ -14,7 +14,7 @@ class TalukRepository {
     return await _client.getTaluks(districtId: districtId);
   }
 
-  Future<Result<List<Basic>>> getAllTaluks() async {
+  Future<Result<List<Location>>> getAllTaluks() async {
     return await _client.getAllTaluks();
   }
 }
