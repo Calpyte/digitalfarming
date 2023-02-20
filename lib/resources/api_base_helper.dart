@@ -94,7 +94,7 @@ class ApiBaseHelper {
       final response = await _client(authenticated).put(url,
           headers: {
             'Content-Type': 'application/json',
-            'x-wstexchng-platform': platformHeader,
+            'x-trace-platform': platformHeader,
             'x-uid': deviceId ?? ""
           },
           body: json.encode(body));
@@ -114,7 +114,7 @@ class ApiBaseHelper {
       final response = await _client(authenticated).post(url,
           headers: {
             'Content-Type': 'application/json',
-            'x-wstexchng-platform': platformHeader,
+            'x-trace-platform': platformHeader,
             'x-uid': deviceId ?? ""
           },
           body: json.encode(body));
@@ -134,7 +134,7 @@ class ApiBaseHelper {
       final response = await _client(authenticated).post(url,
           headers: {
             'Content-Type': 'application/json',
-            'x-wstexchng-platform': platformHeader,
+            'x-trace-platform': platformHeader,
             'x-uid': deviceId ?? ""
           },
           body: json.encode(body));

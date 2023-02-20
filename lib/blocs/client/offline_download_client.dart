@@ -13,6 +13,7 @@ class OfflineDownloadClient {
   }
   static const getOfflineData = '/cache?lastSyncedTime=0';
   static const getFarmerDataPath = '/farmer/farmers?lastSyncedTime=0';
+  static const getFarmCorpDataPath = '/farmCrop/farm-crops?lastSyncedTime=0';
 
   ApiBaseHelper? _helper;
 
@@ -32,6 +33,17 @@ class OfflineDownloadClient {
   Future<Result<dynamic>> getFarmerData() async {
     try {
       String responseStr = await _helper?.get(getFarmerDataPath);
+      return Result.completed(json.decode(responseStr));
+    } on ApiException catch (e) {
+      return Result.error(e.message);
+    } catch (e) {
+      return Result.error(Constants.SERVER_ERROR);
+    }
+  }
+
+  Future<Result<dynamic>> getSowingData() async {
+    try {
+      String responseStr = await _helper?.get(getFarmCorpDataPath);
       return Result.completed(json.decode(responseStr));
     } on ApiException catch (e) {
       return Result.error(e.message);

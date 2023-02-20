@@ -20,6 +20,10 @@ class FarmerRepository {
     return await _client.saveOfflineFarmer();
   }
 
+  Future<Result<String>> saveOfflineSowing() async {
+    return await _client.saveOfflineSowing();
+  }
+
   Future<Result<TableResponse>> getFarmer(Pagination pagination) async {
     return await _client.getFarmers(pagination: pagination);
   }

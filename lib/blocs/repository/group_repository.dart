@@ -12,4 +12,5 @@ class GroupRepository {
   Future<Result<List<Basic>>> getGroups() async {
     return await _client.getGroups();
   }
+
 }

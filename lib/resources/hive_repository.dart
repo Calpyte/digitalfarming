@@ -27,7 +27,7 @@ class HiveRepository implements LaunchSetupMember {
 
   static final HiveRepository _singleton = HiveRepository._internal();
 
-  ImageClient imageClient = ImageClient();
+  ImageClient? imageClient;
 
   BoxCollection? boxCollection;
   Set<String> boxNames = {};
@@ -154,7 +154,6 @@ class HiveRepository implements LaunchSetupMember {
     return [];
   }
 
-
   Future<List<Location>> findAllVillage({required String talukId}) async {
     if (boxCollection != null) {
       final villageBox = await boxCollection?.openBox<Map>('village');
@@ -218,7 +217,23 @@ class HiveRepository implements LaunchSetupMember {
     return [];
   }
 
-  Future<List<Catalogue>> getCatalogueByType() async {
+  Future<List<Variety>> getGradesByVariety({required String cropId}) async {
+    if (boxCollection != null) {
+      final varietyBox = await boxCollection?.openBox<Map>('grades');
+      Map<String, Map>? varieties = await varietyBox?.getAllValues();
+      int len = varieties?.length ?? 0;
+      List<Variety> varietyList = [];
+
+      for (var i = 0; i < len; i++) {
+        varietyList.add(Variety.fromJson(varieties!.values.elementAt(i)));
+      }
+      varietyList.where((element) => element.crop?.id == cropId);
+      return varietyList;
+    }
+    return [];
+  }
+
+  Future<List<Catalogue>> getCatalogues() async {
     if (boxCollection != null) {
       final catalogueBox = await boxCollection?.openBox<Map>('catalogue');
       Map<String, Map>? catalogues = await catalogueBox?.getAllValues();
@@ -259,6 +274,14 @@ class HiveRepository implements LaunchSetupMember {
     }
   }
 
+  Future saveSowing(String sowing, String tempSowingId) async {
+    if (boxCollection != null) {
+      final sowingBox = await boxCollection?.openBox<Map>('sowing');
+      Map valueMap = json.decode(sowing);
+      await sowingBox?.put(tempSowingId, valueMap);
+    }
+  }
+
   Future saveLand(String farm, String tempFarmId) async {
     if (boxCollection != null) {
       final farmerBox = await boxCollection?.openBox<Map>('farm');
@@ -269,26 +292,65 @@ class HiveRepository implements LaunchSetupMember {
 
   Future<Map?> getFarmers() async {
     if (boxCollection != null) {
+      imageClient = ImageClient();
       final farmerBox = await boxCollection?.openBox<Map>('farmer');
       List<String> availableKeys = [];
       Map<String, Map>? farmers = await farmerBox?.getAllValues();
 
-      for(MapEntry farmer in farmers!.entries){
-        if(farmer.value['isSynced'] ?? false){
+      for (MapEntry farmer in farmers!.entries) {
+        if (farmer.value['isSynced'] ?? false) {
           availableKeys.add(farmer.key);
         }
 
-        if(farmer.value['imagePath'] != null || farmer.value['imagePath'] != ''){
-          Result<String> imageResult = await imageClient.savePhoto(photo: XFile(farmer.value['imagePath']));
+        if (farmer.value['imagePath'] != null &&
+            farmer.value['imagePath'] != '') {
+          Result<String> imageResult = await imageClient!
+              .savePhoto(photo: XFile(farmer.value['imagePath']));
           farmer.value['image'] = imageResult.data;
+        }
+
+        if (farmer.value['farmImagePath'] != null &&
+            farmer.value['farmImagePath'] != '') {
+          Result<String> imageResult = await imageClient!
+              .savePhoto(photo: XFile(farmer.value['farmImagePath']));
+          farmer.value['farmImage'] = imageResult.data;
         }
       }
 
-      for(String key in availableKeys){
+      for (String key in availableKeys) {
         farmers.remove(key);
       }
 
       return farmers;
+    }
+    return {};
+  }
+
+  Future<Map?> getSowings() async {
+    if (boxCollection != null) {
+      imageClient = ImageClient();
+      final farmerBox = await boxCollection?.openBox<Map>('sowing');
+      List<String> availableKeys = [];
+      Map<String, Map>? sowings = await farmerBox?.getAllValues();
+
+      for (MapEntry farmer in sowings!.entries) {
+        if (farmer.value['isSynced'] ?? false) {
+          availableKeys.add(farmer.key);
+        }
+
+        if (farmer.value['imagePath'] != null &&
+            farmer.value['imagePath'] != '') {
+          Result<String> imageResult = await imageClient!
+              .savePhoto(photo: XFile(farmer.value['imagePath']));
+          farmer.value['image'] = imageResult.data;
+        }
+      }
+
+      for (String key in availableKeys) {
+        sowings.remove(key);
+      }
+
+      return sowings;
     }
     return {};
   }
@@ -304,6 +366,7 @@ class HiveRepository implements LaunchSetupMember {
 
   Future<Map?> delete() async {
     if (boxCollection != null) {
+      print("Deleted Records !!");
       await boxCollection!.deleteFromDisk();
     }
   }
@@ -311,9 +374,19 @@ class HiveRepository implements LaunchSetupMember {
   Future<void> syncFarmerData(List farmerData) async {
     if (boxCollection != null) {
       final farmerBox = await boxCollection?.openBox<Map>('farmer');
-      for(dynamic farmer in farmerData){
+      for (dynamic farmer in farmerData) {
         await farmerBox?.put(farmer['tempFarmerId'] ?? '', farmer);
       }
     }
   }
+
+  Future<void> syncSowingData(List sowingData) async {
+    if (boxCollection != null) {
+      final farmerBox = await boxCollection?.openBox<Map>('sowing');
+      for (dynamic sowing in sowingData) {
+        await farmerBox?.put(sowing['tempSowingId'] ?? '', sowing);
+      }
+    }
+  }
+
 }

@@ -40,6 +40,7 @@ class Constants {
   static const ADD_NEW_BIN = "Create New Bin";
   static const RECONCILE_BIN = "Reconcile Bin";
   static const CULTIVATION = "Cultivation";
+  static const CULTIVATION_INFORMATION = "Cultivation Information";
 
   static Decoration withShadow() {
     return BoxDecoration(

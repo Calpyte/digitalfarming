@@ -7,8 +7,8 @@ import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
 
-class GroupClient {
-  GroupClient([ApiBaseHelper? helper]) {
+class SeasonClient {
+  SeasonClient([ApiBaseHelper? helper]) {
     _helper = helper ?? ApiBaseHelper();
   }
 
@@ -16,8 +16,8 @@ class GroupClient {
 
   ApiBaseHelper? _helper;
 
-  Future<Result<List<Basic>>> getGroups() async {
+  Future<Result<List<Basic>>> getSeasons() async {
     HiveRepository hiveRepository = HiveRepository();
-    return Result.completed(await hiveRepository.getGroups());
+    return Result.completed(await hiveRepository.getSeasons());
   }
 }

@@ -15,10 +15,12 @@ class OfflineDownloadRepository {
   Future<Result<OfflineDownload>> getOfflineData() async {
     Result<OfflineDownload> offlineDownload = await _client.getMasterData();
     Result<dynamic> farmerData = await _client.getFarmerData();
+    Result<dynamic> sowingData = await _client.getSowingData();
     HiveProvider hiveProvider = HiveProvider();
     HiveRepository hiveRepository = HiveRepository();
-    hiveProvider.syncMasterData(offlineDownload.data!);
-    hiveRepository.syncFarmerData(farmerData.data);
+    await hiveProvider.syncMasterData(offlineDownload.data!);
+    await hiveRepository.syncFarmerData(farmerData.data);
+    await hiveRepository.syncSowingData(sowingData.data);
     return offlineDownload;
   }
 }

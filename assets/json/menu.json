@@ -6,15 +6,9 @@
     "icon" : "assets/images/farmer.png"
   },
   {
-    "id" : "landRegistration",
-    "label" : "Land Registration",
-    "route" : "/land-registration",
-    "icon" : "assets/images/heart.png"
-  },
-  {
     "id" : "sowingRegistration",
     "label" : "Cultivation",
-    "route" : "/cultivation",
+    "route" : "/cultivation-selection",
     "icon" : "assets/images/sowing.png"
   },
   {

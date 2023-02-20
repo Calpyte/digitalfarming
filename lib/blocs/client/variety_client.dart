@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/variety.dart';
 import 'package:digitalfarming/resources/api_base_helper.dart';
 import 'package:digitalfarming/resources/api_exception.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
 
 import '../../utils/constants.dart';
@@ -16,19 +18,9 @@ class VarietyClient {
 
   ApiBaseHelper? _helper;
 
-  Future<Result<List<Basic>>> getVarieties({required String productId}) async {
-    try {
-      String responseStr = await _helper?.get(getvarietiesPath + productId);
-      List<dynamic> response = json.decode(responseStr);
-      List<Basic> varietyList = [];
-      for (var i = 0; i < response.length; i++) {
-        varietyList.add(Basic.fromJson(response[i]));
-      }
-      return Result.completed(varietyList);
-    } on ApiException catch (e) {
-      return Result.error(e.message);
-    } catch (e) {
-      return Result.error(Constants.SERVER_ERROR);
-    }
+  Future<Result<List<Variety>>> getVarieties({required String productId}) async {
+    HiveRepository hiveRepository = HiveRepository();
+    List<Variety> varities = await hiveRepository.getVarietiesByCrop(cropId: productId);
+    return Result.completed(varities);
   }
 }

@@ -4,13 +4,15 @@ class Variety {
   String? id;
   String? name;
   Basic? crop;
+  Basic? variety;
 
-  Variety({this.id, this.name, this.crop});
+  Variety({this.id, this.name, this.crop, this.variety});
 
   Variety.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     crop = json['crop'] != null ?  Basic.fromJson(json['crop']) : null;
+    variety = json['variety'] != null ?  Basic.fromJson(json['variety']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,9 @@ class Variety {
     data['name'] = name;
     if (crop != null) {
       data['crop'] = crop!.toJson();
+    }
+    if (variety != null) {
+      data['variety'] = variety!.toJson();
     }
     return data;
   }

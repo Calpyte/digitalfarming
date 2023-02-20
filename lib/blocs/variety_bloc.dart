@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:digitalfarming/blocs/repository/variety_repository.dart';
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/variety.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
@@ -18,7 +19,7 @@ class VarietyBloc {
 
   Future<void> getVarieties({required String productId}) async {
     varietySink.add(Result.loading(Constants.LOADING));
-    final Result<List<Basic>> response =
+    final Result<List<Variety>> response =
         await _varietyRepository.getVarieties(productId: productId);
     varietySink.add(response);
   }

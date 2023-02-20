@@ -27,15 +27,20 @@ class FarmerBloc {
 
   Future<void> saveOfflineFarmer() async {
     farmerSink.add(Result.loading(Constants.LOADING));
-    final Result<String> response =
-    await _farmerRepository.saveOfflineFarmer();
+    final Result<String> response = await _farmerRepository.saveOfflineFarmer();
     farmerSink.add(Result.completed(response));
   }
 
-  Future<void> getOfflineFarmers() async{
+  Future<void> saveOfflineSowing() async {
+    farmerSink.add(Result.loading(Constants.LOADING));
+    final Result<String> response = await _farmerRepository.saveOfflineSowing();
+    farmerSink.add(Result.completed(response));
+  }
+
+  Future<void> getOfflineFarmers() async {
     farmerSink.add(Result.loading(Constants.LOADING));
     final Result<List<dynamic>> response =
-    await _farmerRepository.getOfflineFarmers();
+        await _farmerRepository.getOfflineFarmers();
     farmerSink.add(response);
   }
 

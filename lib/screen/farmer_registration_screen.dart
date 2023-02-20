@@ -6,7 +6,6 @@ import 'package:digitalfarming/blocs/group_bloc.dart';
 import 'package:digitalfarming/blocs/image_bloc.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/LatLon.dart';
-import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
@@ -14,6 +13,9 @@ import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/routes.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
+import 'package:digitalfarming/views/loading_progress_indicator.dart';
+import 'package:digitalfarming/widgets/name_text_field.dart';
+import 'package:digitalfarming/widgets/number_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -44,6 +46,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
   GroupBloc? groupBloc;
   FarmerBloc? farmerBloc;
   XFile? farmerPhoto;
+  XFile? farmPhoto;
   UIState _uiState = UIState.completed;
   String? imageId;
   ImageBloc imageBloc = ImageBloc();
@@ -52,11 +55,15 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
   initState() {
     groupBloc = GroupBloc();
     farmerBloc = FarmerBloc();
+    setState(() {
+      _uiState = UIState.loading;
+    });
     getMasters();
     super.initState();
   }
 
-  getMasters() {
+  getMasters() async {
+    await Future.delayed(const Duration(seconds: 1));
     groupBloc?.groupStream.listen((snapshot) {
       switch (snapshot.status) {
         case Status.completed:
@@ -115,6 +122,10 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
     });
 
     groupBloc?.getGroups();
+
+    setState(() {
+      _uiState = UIState.completed;
+    });
   }
 
   @override
@@ -137,12 +148,11 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
 
   Widget _widgetForUIState() {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     switch (_uiState) {
       case UIState.loading:
         return const Center(
-          child: GFLoader(
-            type: GFLoaderType.square,
+          child: LoadingProgressIndicator(
+            alignment: Alignment.center,
           ),
         );
 
@@ -222,6 +232,76 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
               SizedBox(
                 height: height * 0.05,
               ),
+              ShadowCard(
+                children: [
+                  SizedBox(height: height * 0.01),
+                  const Text(
+                    Constants.LAND_REGISTRATION,
+                    style: AppTheme.brandHeader,
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Center(
+                    child: InkWell(
+                      onTap: () async {
+                        final ImagePicker picker = ImagePicker();
+                        final XFile? photo =
+                            await picker.pickImage(source: ImageSource.camera);
+                        setState(() {
+                          farmPhoto = photo;
+                        });
+                      },
+                      child: farmPhoto == null
+                          ? GFAvatar(
+                              size: 50,
+                              backgroundColor: Colors.white,
+                              child: farmPhoto == null
+                                  ? const Icon(Icons.camera_alt)
+                                  : GFImageOverlay(
+                                      height: 200,
+                                      width: 200,
+                                      shape: BoxShape.circle,
+                                      image: FileImage(
+                                        File(farmPhoto!.path),
+                                      ),
+                                    ),
+                            )
+                          : GFImageOverlay(
+                              height: 200,
+                              width: 300,
+                              image: FileImage(
+                                File(farmPhoto!.path),
+                              )),
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  NameTextField(
+                    name: 'landName',
+                    hintText: 'Land Name',
+                  ),
+                  SizedBox(height: height * 0.02),
+                  NumberTextField(
+                    name: 'totalAcres',
+                    hintText: 'Total Area(Acres)',
+                    validators: [
+                      FormBuilderValidators.required(
+                          errorText: 'Please enter total no of Acres'),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.02),
+                  NumberTextField(
+                    name: 'cultivatedAcres',
+                    hintText: 'Total Area Cultivated(Acres)',
+                    validators: [
+                      FormBuilderValidators.required(
+                          errorText: 'Please enter Total Area Cultivated'),
+                    ],
+                  ),
+                  SizedBox(height: height * 0.02),
+                ],
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
               BorderButton(
                 text: 'Submit',
                 onPressed: () => validateAndSave(),
@@ -256,7 +336,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
       setState(() {
         _uiState = UIState.loading;
       });
-      var uuid = Uuid();
+      var uuid = const Uuid();
 
       LatLon latLon = await getLocation();
       Map finalMap = Map.of(farmerValueMap!);
@@ -264,6 +344,9 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
       finalMap!['isSynced'] = false;
       if (farmerPhoto != null) {
         finalMap!['imagePath'] = farmerPhoto!.path;
+      }
+      if (farmPhoto != null) {
+        finalMap!['farmImagePath'] = farmPhoto!.path;
       }
       finalMap!['latitude'] = latLon.latitude;
       finalMap!['longitude'] = latLon.longitude;

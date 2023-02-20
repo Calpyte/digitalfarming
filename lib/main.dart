@@ -36,7 +36,8 @@ class DigitalFarming extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF6F6FB),
         appBarTheme: const AppBarTheme(
           iconTheme: AppTheme.iconTheme,
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          backgroundColor: Colors.white
         ),
         textTheme: AppTheme.textTheme,
         tabBarTheme: AppTheme.tabBarTheme,

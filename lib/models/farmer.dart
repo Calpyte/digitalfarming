@@ -14,23 +14,27 @@ class Farmer {
   double? latitude;
   double? longitude;
   String? image;
+  String? imagePath;
+  String? tempFarmerId;
 
-  Farmer(
-      {this.id,
-      this.name,
-      this.lastName,
-      this.code,
-      this.mobileNumber,
-      this.email,
-      this.gender,
-      this.village,
-      this.group,
-      this.latitude,
-      this.longitude,
-        this.image,
-      });
+  Farmer({
+    this.id,
+    this.name,
+    this.lastName,
+    this.code,
+    this.mobileNumber,
+    this.email,
+    this.gender,
+    this.village,
+    this.group,
+    this.latitude,
+    this.longitude,
+    this.image,
+    this.imagePath,
+    this.tempFarmerId,
+  });
 
-  Farmer.fromJson(Map<String, dynamic> json) {
+  Farmer.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     lastName = json['lastName'];
@@ -38,11 +42,14 @@ class Farmer {
     mobileNumber = json['mobileNumber'];
     email = json['email'];
     gender = json['gender'];
-    village = json['village'] != null ? Location.fromJson(json['village']) : null;
+    village =
+        json['village'] != null ? Location.fromJson(json['village']) : null;
     group = json['group'] != null ? Basic.fromJson(json['group']) : null;
     latitude = json['latitude'];
     longitude = json['longitude'];
     image = json['image'];
+    imagePath = json['imagePath'];
+    tempFarmerId = json['tempFarmerId'];
   }
 
   Farmer.fromFormJson(Map<String, dynamic> json) {
@@ -57,6 +64,8 @@ class Farmer {
     latitude = json['latitude'];
     longitude = json['longitude'];
     image = json['image'];
+    imagePath = json['imagePath'];
+    tempFarmerId = json['tempFarmerId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +78,7 @@ class Farmer {
     data['email'] = email;
     data['gender'] = gender;
     data['image'] = image;
+    data['tempFarmerId'] = tempFarmerId;
     if (village != null) {
       data['village'] = village!.toJson();
     }
@@ -77,6 +87,7 @@ class Farmer {
     }
     data['latitude'] = latitude;
     data['longitude'] = longitude;
+    data['imagePath'] = imagePath;
     return data;
   }
 }

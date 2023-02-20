@@ -9,15 +9,17 @@ import 'package:digitalfarming/utils/constants.dart';
 
 import '../../models/Basic.dart';
 
-class ProductClient {
-  ProductClient([ApiBaseHelper? helper]) {
+class CatalogueClient {
+  CatalogueClient([ApiBaseHelper? helper]) {
     _helper = helper ?? ApiBaseHelper();
   }
 
   ApiBaseHelper? _helper;
 
-  Future<Result<List<Basic>>> getProduct() async {
+  Future<Result<List<Catalogue>>> getCatalogues() async {
     HiveRepository hiveRepository = HiveRepository();
-    return Result.completed(await hiveRepository.getCrops());
+    return Result.completed(
+      await hiveRepository.getCatalogues(),
+    );
   }
 }

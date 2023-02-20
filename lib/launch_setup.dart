@@ -1,6 +1,7 @@
 import 'package:digitalfarming/resources/app_logger.dart';
 import 'package:digitalfarming/resources/auth_token_repository.dart';
 import 'package:digitalfarming/resources/env_repository.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/refresh_token_repository.dart';
 
 mixin LaunchSetupMember {
@@ -13,6 +14,7 @@ class LaunchSetup {
     AppLogger(),
     TokenRepository(),
     RefreshTokenRepository(),
+    HiveRepository()
   ];
 
   Future<void> load() async {

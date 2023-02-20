@@ -7,7 +7,7 @@ import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/constants.dart';
 
 class ProductBloc {
-  final logger = AppLogger.get('CountryBloc');
+  final logger = AppLogger.get('ProductBloc');
   final ProductRepository _productRepository = ProductRepository();
 
   final StreamController<Result> _productController =

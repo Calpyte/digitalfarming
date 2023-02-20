@@ -77,9 +77,8 @@ class _LandDetailState extends State<LandDetail> {
     farmerBloc?.farmerStream.listen((snapshot) {
       switch (snapshot.status) {
         case Status.completed:
-          TableResponse tableResponse = snapshot.data as TableResponse;
           setState(() {
-            farmers = tableResponse.data!;
+            farmers = snapshot.data;
             logger.d(farmers.length);
           });
           break;

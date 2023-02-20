@@ -1,5 +1,6 @@
 import 'package:digitalfarming/blocs/client/variety_client.dart';
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/variety.dart';
 import 'package:digitalfarming/resources/result.dart';
 
 class VarietyRepository {
@@ -9,7 +10,7 @@ class VarietyRepository {
 
   VarietyClient _client = VarietyClient();
 
-  Future<Result<List<Basic>>> getVarieties({required String productId}) async {
+  Future<Result<List<Variety>>> getVarieties({required String productId}) async {
     return await _client.getVarieties(productId: productId);
   }
 }
