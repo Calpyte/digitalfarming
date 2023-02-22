@@ -219,7 +219,9 @@ class _BinScreenState extends State<BinScreen> {
                               ),
                             ),
                             Text(
-                              bins[index].totalWeight.toString(),
+                              bins[index].totalWeight != null
+                                  ? bins[index].totalWeight.toString()
+                                  : '0',
                               style: AppTheme.brandLabel,
                             ),
                           ],
@@ -245,12 +247,39 @@ class _BinScreenState extends State<BinScreen> {
                       ],
                     ),
                   ),
-                  onTap: () => nextScreen(
-                    context,
-                    BinContributionScreen(
-                      bin: bins[index],
-                    ),
-                  ),
+                  onTap: () {
+                    if (bins[index].contributions?.isEmpty ?? false) {
+                      nextScreen(
+                        context,
+                        BinContributionScreen(
+                          bin: bins[index],
+                        ),
+                      );
+                    } else {
+                      showPopupDialog(
+                        context,
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: height * 0.3,
+                            bottom: height * 0.45,
+                          ),
+                          child: GFCard(
+                            content: const Text(
+                              "No Contributions available for this bin",
+                            ),
+                            buttonBar: GFButtonBar(
+                              children: [
+                                GFButton(
+                                  onPressed: () => {Navigator.pop(context)},
+                                  text: 'Close',
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
             ),

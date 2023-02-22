@@ -104,10 +104,10 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
                   width: width * 0.45,
                   height: height * 0.1,
                   child: ListTile(
-                    tileColor: selectedBin == bins[index].id!
+                    tileColor: selectedBin == bins[index].tempBinId!
                         ? AppTheme.brandingColor
                         : Colors.white,
-                    textColor: selectedBin != bins[index].id!
+                    textColor: selectedBin != bins[index].tempBinId!
                         ? AppTheme.brandingColor
                         : Colors.white,
                     title: Text(
@@ -118,7 +118,7 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
                     ),
                     onTap: () {
                       setState(() {
-                        selectedBin = bins[index].id!;
+                        selectedBin = bins[index].tempBinId!;
                       });
                     },
                   ),

@@ -33,12 +33,11 @@ class ProfileData extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () async {
-                  OfflineDownloadBloc offlineDownloadBloc =
-                      OfflineDownloadBloc();
+                  OfflineDownloadBloc offlineDownloadBloc = OfflineDownloadBloc();
                   FarmerBloc farmerBloc = FarmerBloc();
                   await offlineDownloadBloc.getOfflineData();
                   await farmerBloc.saveOfflineFarmer();
-                  await farmerBloc.saveOfflineSowing();
+                  await farmerBloc.saveBinProcessing();
                 },
               ),
             ],

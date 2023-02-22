@@ -20,7 +20,7 @@
   {
     "id" : "procurement",
     "label" : "Procurement",
-    "route" : "/procurement-screen",
+    "route" : "/procurement-selection",
     "icon" : "assets/images/procurement.png"
   },
   {

@@ -5,6 +5,7 @@ import 'package:digitalfarming/screen/cultivation_screen.dart';
 import 'package:digitalfarming/screen/farmer_registration_screen.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/screen/land_registration_screen.dart';
+import 'package:digitalfarming/screen/procurement_farmer_selection.dart';
 import 'package:digitalfarming/screen/procurement_screen.dart';
 import 'package:digitalfarming/screen/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +37,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const BinRegistrationScreen(),
         );
-      case ProcurementScreen.routeName:
+      case ProcurementFarmerSelectionScreen.routeName:
         return MaterialPageRoute(
-          builder: (_) => const ProcurementScreen(),
+          builder: (_) => const ProcurementFarmerSelectionScreen(),
         );
       case BinScreen.routeName:
         return MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:digitalfarming/blocs/grade_bloc.dart';
 import 'package:digitalfarming/blocs/product_bloc.dart';
 import 'package:digitalfarming/blocs/variety_bloc.dart';
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/variety.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/widgets/dropdown_field.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _SearchCropState extends State<SearchCrop> {
   GradeBloc? gradeBloc;
 
   List<Basic> products = [];
-  List<Basic> varities = [];
+  List<Variety> varities = [];
   List<Basic> grades = [];
 
   String selectedProduct = '';
@@ -61,20 +62,6 @@ class _SearchCropState extends State<SearchCrop> {
       }
     });
 
-    gradeBloc?.gradeStream.listen((snapshot) {
-      switch (snapshot.status) {
-        case Status.completed:
-          setState(() {
-            grades.clear();
-            grades = snapshot.data;
-            if (grades.isNotEmpty) {
-              selectedGrade = grades[0].id!;
-            }
-          });
-          break;
-      }
-    });
-
     productBloc?.getProducts();
 
     super.initState();
@@ -100,13 +87,9 @@ class _SearchCropState extends State<SearchCrop> {
                   onChanged: (product) {
                     setState(() {
                       varities.clear();
-                      grades.clear();
                     });
                     varietyBloc?.getVarieties(
                       productId: product?.id,
-                    );
-                    gradeBloc?.getGrades(
-                      varietyId: product?.id,
                     );
                   }),
               const SizedBox(width: double.infinity, height: 20),
@@ -119,51 +102,6 @@ class _SearchCropState extends State<SearchCrop> {
                 ],
                 hintText: 'Variety',
               ),
-              const SizedBox(width: double.infinity, height: 20),
-              DropDownField(
-                name: 'grade',
-                items: getItems(grades),
-                validators: [
-                  FormBuilderValidators.required(
-                      errorText: 'Please select Grade'),
-                ],
-                hintText: 'Grade',
-              ),
-              /*  Wrap(
-                spacing: 10.0,
-                runSpacing: 20.0,
-                children: grades
-                    .map(
-                      (grade) => Container(
-                        margin: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: selectedGrade! != grade.id
-                              ? Colors.white
-                              : AppTheme.brandingColor,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedGrade = grade.id ?? '';
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              grade.name ?? '',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: selectedGrade! != grade.id
-                                    ? Colors.black
-                                    : Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ), */
             ],
           ),
         ),
@@ -171,7 +109,7 @@ class _SearchCropState extends State<SearchCrop> {
     );
   }
 
-  List<DropdownMenuItem> getItems(List<Basic> options) {
+  List<DropdownMenuItem> getItems(List<dynamic> options) {
     return List.generate(
       options.length,
       (index) => DropdownMenuItem(

@@ -1,9 +1,10 @@
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/variety.dart';
 
 class Procurement {
   String? id;
   Basic? farmer;
-  Basic? variety;
+  Variety? variety;
   Basic? grade;
   Basic? bin;
   String? totalWeight;
@@ -31,7 +32,7 @@ class Procurement {
   Procurement.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     farmer = json['farmer'] != null ? Basic?.fromJson(json['farmer']) : null;
-    variety = json['variety'] != null ? Basic?.fromJson(json['variety']) : null;
+    variety = json['variety'] != null ? Variety?.fromJson(json['variety']) : null;
     grade = json['grade'] != null ? Basic?.fromJson(json['grade']) : null;
     bin = json['bin'] != null ? Basic?.fromJson(json['bin']) : null;
     totalWeight = json['totalWeight'];

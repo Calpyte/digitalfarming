@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:digitalfarming/blocs/client/image_client.dart';
 import 'package:digitalfarming/launch_setup.dart';
 import 'package:digitalfarming/models/Basic.dart';
+import 'package:digitalfarming/models/bin.dart';
 import 'package:digitalfarming/models/catalogue.dart';
 import 'package:digitalfarming/models/variety.dart';
 import 'package:digitalfarming/resources/result.dart';
@@ -62,7 +63,8 @@ class HiveRepository implements LaunchSetupMember {
         'catalogue',
         'farmer',
         'farm',
-        'sowing'
+        'sowing',
+        'bin'
       }, // Names of your boxes
       path:
           tempPath, // Path where to store your boxes (Only used in Flutter / Dart IO)
@@ -274,6 +276,14 @@ class HiveRepository implements LaunchSetupMember {
     }
   }
 
+  Future saveBin(String farmer, String tempBinId) async {
+    if (boxCollection != null) {
+      final binBox = await boxCollection?.openBox<Map>('bin');
+      Map valueMap = json.decode(farmer);
+      await binBox?.put(tempBinId, valueMap);
+    }
+  }
+
   Future saveSowing(String sowing, String tempSowingId) async {
     if (boxCollection != null) {
       final sowingBox = await boxCollection?.openBox<Map>('sowing');
@@ -364,6 +374,45 @@ class HiveRepository implements LaunchSetupMember {
     return {};
   }
 
+  Future<List<Bin>> getBins() async {
+    if (boxCollection != null) {
+      final binBox = await boxCollection?.openBox<Map>('bin');
+      Map<String, Map>? bins = await binBox?.getAllValues();
+
+      int len = bins?.length ?? 0;
+      List<Bin> binsList = [];
+
+      for (var i = 0; i < len; i++) {
+        binsList.add(Bin.fromJson(bins!.values.elementAt(i)));
+      }
+
+      return binsList;
+    }
+    return [];
+  }
+
+  Future<Map?> fetchBins() async {
+    if (boxCollection != null) {
+      imageClient = ImageClient();
+      final farmerBox = await boxCollection?.openBox<Map>('bin');
+      List<String> availableKeys = [];
+      Map<String, Map>? bins = await farmerBox?.getAllValues();
+
+      for (MapEntry farmer in bins!.entries) {
+        if (farmer.value['isSynced'] ?? false) {
+          availableKeys.add(farmer.key);
+        }
+      }
+
+      for (String key in availableKeys) {
+        bins.remove(key);
+      }
+
+      return bins;
+    }
+    return {};
+  }
+
   Future<Map?> delete() async {
     if (boxCollection != null) {
       print("Deleted Records !!");
@@ -389,4 +438,12 @@ class HiveRepository implements LaunchSetupMember {
     }
   }
 
+  Future<void> syncBinData(List data) async {
+    if (boxCollection != null) {
+      final binBox = await boxCollection?.openBox<Map>('bin');
+      for (dynamic bin in data) {
+        await binBox?.put(bin['tempBinId'] ?? '', bin);
+      }
+    }
+  }
 }

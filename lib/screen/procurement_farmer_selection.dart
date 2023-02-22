@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/screen/cultivation_screen.dart';
+import 'package:digitalfarming/screen/procurement_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/next_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,17 @@ import 'package:getwidget/components/card/gf_card.dart';
 import 'package:getwidget/components/image/gf_image_overlay.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 
-class CultivationFarmerSelectionScreen extends StatefulWidget {
-  static const routeName = '/cultivation-selection';
-  const CultivationFarmerSelectionScreen({Key? key}) : super(key: key);
+class ProcurementFarmerSelectionScreen extends StatefulWidget {
+  static const routeName = '/procurement-selection';
+  const ProcurementFarmerSelectionScreen({Key? key}) : super(key: key);
 
   @override
-  State<CultivationFarmerSelectionScreen> createState() =>
-      _CultivationFarmerSelectionScreenState();
+  State<ProcurementFarmerSelectionScreen> createState() =>
+      _ProcurementFarmerSelectionScreenState();
 }
 
-class _CultivationFarmerSelectionScreenState
-    extends State<CultivationFarmerSelectionScreen> {
+class _ProcurementFarmerSelectionScreenState
+    extends State<ProcurementFarmerSelectionScreen> {
   TextEditingController searchController = TextEditingController();
   List<Farmer> farmersList = [];
   @override
@@ -63,12 +64,13 @@ class _CultivationFarmerSelectionScreenState
                     backgroundColor: AppTheme.brandingColor,
                     child: farmer.imagePath != null
                         ? GFImageOverlay(
-                            height: 200,
-                            width: 200,
+                            height: 300,
+                            width: 100,
                             shape: BoxShape.circle,
                             image: FileImage(
                               File(farmer.imagePath!),
                             ),
+                            boxFit: BoxFit.fill,
                           )
                         : Text(
                             farmer.name?.substring(0, 2) ?? 'NA',
@@ -80,7 +82,7 @@ class _CultivationFarmerSelectionScreenState
                   onTap: () {
                     nextScreen(
                       context,
-                      CultivationScreen(
+                      ProcurementScreen(
                         farmer: farmer,
                       ),
                     );

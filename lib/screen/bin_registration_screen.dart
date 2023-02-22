@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:digitalfarming/blocs/bin_bloc.dart';
 import 'package:digitalfarming/blocs/product_bloc.dart';
-import 'package:digitalfarming/models/bin.dart';
+import 'package:digitalfarming/models/LatLon.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
@@ -10,6 +13,8 @@ import 'package:digitalfarming/widgets/border_button.dart';
 import 'package:digitalfarming/widgets/name_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/Basic.dart';
 
@@ -114,10 +119,33 @@ class _BinRegistrationScreenState extends State<BinRegistrationScreen> {
 
   validateAndSave() async {
     if (_formKey.currentState?.saveAndValidate() ?? true) {
+      var uuid = const Uuid();
       Map<String, dynamic>? farmerValueMap = _formKey.currentState?.value;
-      Bin bin = Bin.fromFormJson(farmerValueMap!);
-      await binBloc?.saveBin(bin: bin);
+      LatLon latLon = await getLocation();
+      Map finalMap = Map.of(farmerValueMap!);
+      finalMap!['tempBinId'] = uuid.v4();
+      finalMap!['isSynced'] = false;
+      finalMap!['latitude'] = latLon.latitude;
+      finalMap!['longitude'] = latLon.longitude;
+
+      HiveRepository hiveRepository = HiveRepository();
+      String binObj = json.encode(finalMap);
+      hiveRepository.saveBin(binObj, finalMap['tempBinId']);
       Navigator.pop(context);
     }
   }
+
+  Future<LatLon> getLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error('Location Not Available');
+      }
+    }
+
+    final Position position = await Geolocator.getCurrentPosition();
+    return LatLon(latitude: position.latitude, longitude: position.longitude);
+  }
+
 }

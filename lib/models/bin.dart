@@ -22,7 +22,7 @@ class Bin {
     this.contributions,
   });
 
-  Bin.fromJson(Map<String, dynamic> json) {
+  Bin.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     tempBinId = json['tempBinId'];
