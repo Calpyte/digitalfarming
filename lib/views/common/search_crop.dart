@@ -18,7 +18,6 @@ class SearchCrop extends StatefulWidget {
 class _SearchCropState extends State<SearchCrop> {
   ProductBloc? productBloc;
   VarietyBloc? varietyBloc;
-  GradeBloc? gradeBloc;
 
   List<Basic> products = [];
   List<Variety> varities = [];
@@ -32,7 +31,6 @@ class _SearchCropState extends State<SearchCrop> {
   void initState() {
     productBloc = ProductBloc();
     varietyBloc = VarietyBloc();
-    gradeBloc = GradeBloc();
 
     productBloc?.productStream.listen((snapshot) {
       switch (snapshot.status) {
@@ -42,7 +40,6 @@ class _SearchCropState extends State<SearchCrop> {
             if (products.isNotEmpty) {
               selectedProduct = products[0].id!;
               varietyBloc?.getVarieties(productId: selectedProduct);
-              gradeBloc?.getGrades(varietyId: selectedProduct);
             }
           });
           break;

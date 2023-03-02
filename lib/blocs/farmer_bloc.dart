@@ -43,6 +43,12 @@ class FarmerBloc {
     farmerSink.add(Result.completed(response));
   }
 
+  Future<void> saveProcurement() async {
+    farmerSink.add(Result.loading(Constants.LOADING));
+    final Result<String> response = await _farmerRepository.saveProcurement();
+    farmerSink.add(Result.completed(response));
+  }
+
   Future<void> getOfflineFarmers() async {
     farmerSink.add(Result.loading(Constants.LOADING));
     final Result<List<dynamic>> response =

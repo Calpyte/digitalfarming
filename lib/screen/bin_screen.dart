@@ -239,7 +239,8 @@ class _BinScreenState extends State<BinScreen> {
                         Wrap(
                           children: [
                             Text(
-                              "${bins[index].variety?.name ?? ''} | ${bins[index].grade?.name ?? ''}",
+                              //"${bins[index].variety?.name ?? ''} | ${bins[index].grade?.name ?? ''}",
+                              bins[index].variety?.name ?? '',
                               style: const TextStyle(fontSize: 15),
                             ),
                           ],
@@ -248,7 +249,7 @@ class _BinScreenState extends State<BinScreen> {
                     ),
                   ),
                   onTap: () {
-                    if (bins[index].contributions?.isEmpty ?? false) {
+                    if (bins[index].contributions?.isNotEmpty ?? false) {
                       nextScreen(
                         context,
                         BinContributionScreen(

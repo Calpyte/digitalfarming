@@ -54,14 +54,13 @@ class Bin {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['tempBinId'] = tempBinId;
     data['code'] = code;
     data['variety'] = variety!.toJson();
-    data['grade'] = grade!.toJson();
     data['totalWeight'] = totalWeight;
     if (contributions != null) {
       data['contributions'] = contributions!.map((v) => v.toJson()).toList();

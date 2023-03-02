@@ -170,7 +170,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                   onTap: () async {
                     final ImagePicker picker = ImagePicker();
                     final XFile? photo =
-                        await picker.pickImage(source: ImageSource.camera);
+                        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
                     setState(() {
                       farmerPhoto = photo;
                     });
@@ -245,7 +245,7 @@ class _FarmerRegistrationScreenState extends State<FarmerRegistrationScreen> {
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
                         final XFile? photo =
-                            await picker.pickImage(source: ImageSource.camera);
+                            await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
                         setState(() {
                           farmPhoto = photo;
                         });

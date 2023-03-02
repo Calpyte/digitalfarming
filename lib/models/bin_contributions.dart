@@ -14,7 +14,7 @@ class BinContribution {
         this.weight,
         this.contributionPercentage});
 
-  BinContribution.fromJson(Map<String, dynamic> json) {
+  BinContribution.fromJson(Map<dynamic, dynamic> json) {
     farmer =
     json['farmer'] != null ? Basic.fromJson(json['farmer']) : null;
     variety =

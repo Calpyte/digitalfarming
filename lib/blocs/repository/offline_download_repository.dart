@@ -17,12 +17,14 @@ class OfflineDownloadRepository {
     Result<dynamic> farmerData = await _client.getFarmerData();
     Result<dynamic> sowingData = await _client.getSowingData();
     Result<dynamic> binData = await _client.getBinData();
+    Result<dynamic> procurementData = await _client.getProcurementData();
     HiveProvider hiveProvider = HiveProvider();
     HiveRepository hiveRepository = HiveRepository();
     await hiveProvider.syncMasterData(offlineDownload.data!);
     await hiveRepository.syncFarmerData(farmerData.data);
     await hiveRepository.syncSowingData(sowingData.data);
     await hiveRepository.syncBinData(binData.data);
+    await hiveRepository.syncProcurementData(procurementData.data);
     return offlineDownload;
   }
 }

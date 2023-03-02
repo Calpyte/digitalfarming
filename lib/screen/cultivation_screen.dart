@@ -123,7 +123,7 @@ class _CultivationScreenState extends State<CultivationScreen> {
                   onTap: () async {
                     final ImagePicker picker = ImagePicker();
                     final XFile? photo =
-                        await picker.pickImage(source: ImageSource.camera);
+                        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
                     setState(() {
                       farmerPhoto = photo;
                     });

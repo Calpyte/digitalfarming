@@ -1,4 +1,5 @@
 import 'package:digitalfarming/blocs/farmer_bloc.dart';
+import 'package:digitalfarming/blocs/season_bloc.dart';
 import 'package:digitalfarming/blocs/taluk_bloc.dart';
 import 'package:digitalfarming/blocs/village_bloc.dart';
 import 'package:digitalfarming/models/LatLon.dart';
@@ -6,6 +7,7 @@ import 'package:digitalfarming/models/farmer.dart';
 import 'package:digitalfarming/models/location.dart';
 import 'package:digitalfarming/models/procurement.dart';
 import 'package:digitalfarming/resources/app_logger.dart';
+import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/screen/bin_selection_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
@@ -13,6 +15,7 @@ import 'package:digitalfarming/utils/next_screen.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
 import 'package:digitalfarming/views/common/search_crop.dart';
 import 'package:digitalfarming/views/shadow_card.dart';
+import 'package:digitalfarming/widgets/dropdown_field.dart';
 import 'package:digitalfarming/widgets/number_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -42,6 +45,8 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
 
   final logger = AppLogger.get('_ProcurementScreenState');
 
+  SeasonBloc? seasonBloc;
+
   List<Location> taluks = [];
   List<Location> villages = [];
   List<Location> farmers = [];
@@ -49,7 +54,7 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
   TalukBloc? talukBloc;
   VillageBloc? villageBloc;
   FarmerBloc? farmerBloc;
-
+  List<Basic> seasons = [];
   Farmer? farmer;
 
   @override
@@ -67,7 +72,20 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
     super.initState();
   }
 
-  getMasters() {}
+  getMasters() {
+    seasonBloc = SeasonBloc();
+    seasonBloc?.seasonStream.listen((snapshot) {
+      switch (snapshot.status) {
+        case Status.completed:
+          setState(() {
+            seasons = snapshot.data;
+          });
+          break;
+      }
+    });
+
+    seasonBloc!.getSeasons();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +139,17 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
                         Text('Tracenet Id : ${farmer!.code}'),
                       ],
                     ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  DropDownField(
+                    name: 'season',
+                    items: getItems(seasons),
+                    validators: [
+                      FormBuilderValidators.required(
+                        errorText: 'Please select Season',
+                      ),
+                    ],
+                    hintText: 'Season*',
                   ),
                   const SearchCrop(),
                 ],
@@ -194,7 +223,7 @@ class _ProcurementScreenState extends State<ProcurementScreen> {
       Procurement procurement = Procurement.fromFormJson(procurementValueMap!);
       procurement.latitude = latLon.latitude;
       procurement.longitude = latLon.longitude;
-      procurement.farmer = Basic(id: farmer!.tempFarmerId);
+      procurement.farmer = Basic(id: farmer?.tempFarmerId, name: farmer?.name);
       nextScreen(context, BinSelectionScreen(procurement: procurement));
     }
   }

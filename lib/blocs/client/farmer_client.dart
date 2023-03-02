@@ -20,6 +20,7 @@ class FarmerClient {
   static const saveFarmerOfflinePath = '/farmer/offline-save';
   static const saveFarmCorpOfflinePath = '/farmCrop/offline-save';
   static const saveBinPath = '/bin/offline-save';
+  static const saveProcurementPath = '/procurement/offline-save';
 
   ApiBaseHelper? _helper;
 
@@ -65,6 +66,19 @@ class FarmerClient {
       HiveRepository hiveRepository = HiveRepository();
       Map? farmer = await hiveRepository.fetchBins();
       await _helper?.post(true, saveBinPath, farmer);
+      return Result.completed(UIState.completed.name);
+    } on ApiException catch (e) {
+      return Result.error(e.message);
+    } catch (e) {
+      return Result.error(Constants.SERVER_ERROR);
+    }
+  }
+
+  Future<Result<String>> saveProcurement() async {
+    try {
+      HiveRepository hiveRepository = HiveRepository();
+      Map? farmer = await hiveRepository.fetchProcurements();
+      await _helper?.post(true, saveProcurementPath, farmer);
       return Result.completed(UIState.completed.name);
     } on ApiException catch (e) {
       return Result.error(e.message);

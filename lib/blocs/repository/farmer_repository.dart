@@ -24,6 +24,11 @@ class FarmerRepository {
     return await _client.saveBinProcessing();
   }
 
+  Future<Result<String>> saveProcurement() async {
+    return await _client.saveProcurement();
+  }
+
+
   Future<Result<String>> saveOfflineSowing() async {
     return await _client.saveOfflineSowing();
   }

@@ -10,7 +10,7 @@ class ProcurementClient {
     _helper = helper ?? ApiBaseHelper();
   }
 
-  static const saveProcurementPath = '/procurement/save';
+  static const saveProcurementPath = '/procurement/offline-save';
 
   ApiBaseHelper? _helper;
 

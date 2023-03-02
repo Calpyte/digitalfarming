@@ -64,7 +64,8 @@ class HiveRepository implements LaunchSetupMember {
         'farmer',
         'farm',
         'sowing',
-        'bin'
+        'bin',
+        'procurement'
       }, // Names of your boxes
       path:
           tempPath, // Path where to store your boxes (Only used in Flutter / Dart IO)
@@ -276,10 +277,20 @@ class HiveRepository implements LaunchSetupMember {
     }
   }
 
-  Future saveBin(String farmer, String tempBinId) async {
+
+  Future saveProcurement(String procurement, String tempProcurementId) async {
+    if (boxCollection != null) {
+      final farmerBox = await boxCollection?.openBox<Map>('procurement');
+      Map valueMap = json.decode(procurement);
+      await farmerBox?.put(tempProcurementId, valueMap);
+    }
+  }
+
+
+  Future saveBin(String binObj, String tempBinId) async {
     if (boxCollection != null) {
       final binBox = await boxCollection?.openBox<Map>('bin');
-      Map valueMap = json.decode(farmer);
+      Map valueMap = json.decode(binObj);
       await binBox?.put(tempBinId, valueMap);
     }
   }
@@ -413,6 +424,28 @@ class HiveRepository implements LaunchSetupMember {
     return {};
   }
 
+
+  Future<Map?> fetchProcurements() async {
+    if (boxCollection != null) {
+      final farmerBox = await boxCollection?.openBox<Map>('procurement');
+      List<String> availableKeys = [];
+      Map<String, Map>? procurements = await farmerBox?.getAllValues();
+
+      for (MapEntry procurement in procurements!.entries) {
+        if (procurement.value['isSynced'] ?? false) {
+          availableKeys.add(procurement.key);
+        }
+      }
+
+      for (String key in availableKeys) {
+        procurements.remove(key);
+      }
+
+      return procurements;
+    }
+    return {};
+  }
+
   Future<Map?> delete() async {
     if (boxCollection != null) {
       print("Deleted Records !!");
@@ -446,4 +479,14 @@ class HiveRepository implements LaunchSetupMember {
       }
     }
   }
+
+  Future<void> syncProcurementData(List data) async {
+    if (boxCollection != null) {
+      final procurementBox = await boxCollection?.openBox<Map>('procurement');
+      for (dynamic procurement in data) {
+        await procurementBox?.put(procurement['tempProcurementId'] ?? '', procurement);
+      }
+    }
+  }
+
 }

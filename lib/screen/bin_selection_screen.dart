@@ -1,17 +1,23 @@
+import 'dart:convert';
+
 import 'package:digitalfarming/blocs/bin_bloc.dart';
 import 'package:digitalfarming/blocs/procurement_bloc.dart';
 import 'package:digitalfarming/models/Basic.dart';
 import 'package:digitalfarming/models/bin.dart';
+import 'package:digitalfarming/models/bin_contributions.dart';
 import 'package:digitalfarming/models/procurement.dart';
+import 'package:digitalfarming/resources/hive_repository.dart';
 import 'package:digitalfarming/resources/result.dart';
 import 'package:digitalfarming/screen/home_screen.dart';
 import 'package:digitalfarming/utils/app_theme.dart';
 import 'package:digitalfarming/utils/constants.dart';
 import 'package:digitalfarming/utils/next_screen.dart';
+import 'package:digitalfarming/utils/routes.dart';
 import 'package:digitalfarming/utils/ui_state.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/position/gf_toast_position.dart';
+import 'package:uuid/uuid.dart';
 
 import '../widgets/border_button.dart';
 
@@ -30,7 +36,7 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
   List<Bin> bins = [];
   String selectedBin = "";
   ProcurementBloc? procurementBloc;
-  UIState _uiState = UIState.completed;
+  UIState _uiState = UIState.loading;
 
   @override
   initState() {
@@ -61,7 +67,7 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
             _uiState = UIState.completed;
           });
 
-          nextScreen(context, const HomeScreen());
+          // nextScreen(context, const HomeScreen());
           break;
         case Status.error:
           GFToast.showToast('Internal Server Error', context);
@@ -138,13 +144,80 @@ class _BinSelectionScreenState extends State<BinSelectionScreen> {
     );
   }
 
-  validateAndSave() {
+  validateAndSave() async {
     if (selectedBin == '') {
       GFToast.showToast('Please select bin to proceed', context);
     } else {
+      var uuid = const Uuid();
       Procurement procurement = widget.procurement;
       procurement.bin = Basic(id: selectedBin);
-      procurementBloc?.saveProcurement(procurement: procurement);
+
+      Map finalMap = Map.of(procurement.toJson()!);
+      finalMap!['tempProcurementId'] = uuid.v4();
+      finalMap!['isSynced'] = false;
+
+      HiveRepository hiveRepository = HiveRepository();
+      String procurementObj = json.encode(finalMap);
+      hiveRepository.saveProcurement(
+          procurementObj, finalMap['tempProcurementId']);
+
+      List<Bin> bins = await hiveRepository.getBins();
+      bins = bins.where((element) => element.tempBinId == selectedBin).toList();
+      if (bins.isNotEmpty) {
+        Bin bin = bins.first;
+        List<BinContribution>? eContributions = bin.contributions;
+        double? total = eContributions
+                ?.map((item) => item.weight)
+                .reduce((a, b) => a! + b!) ??
+            0;
+
+        List<BinContribution>? aContributions = [];
+        int len = eContributions?.length ?? 0;
+        for (var i = 0; i < len; i++) {
+          aContributions?.add(
+            getContribution(eContributions![i], total!),
+          );
+        }
+
+        aContributions?.add(
+          BinContribution(
+            farmer: procurement.farmer,
+            variety: Basic(
+              id: procurement.variety?.id,
+              name: procurement.variety?.name,
+            ),
+            weight: double.parse(procurement.totalWeight!),
+            contributionPercentage: total > 0
+                ? calculatePercentage(
+                    double.parse(procurement.totalWeight!), total!)
+                : 100,
+          ),
+        );
+
+        bin.contributions?.clear();
+        bin.contributions = aContributions;
+        Map finalMap = Map.of(bin.toJson()!);
+        try {
+          hiveRepository.saveBin(json.encode(finalMap), bin.tempBinId!);
+        } catch (e) {
+          print(e);
+        }
+      }
+
+      GFToast.showToast('Procurement Saved Successfully', context,
+          toastPosition: GFToastPosition.BOTTOM);
+
+      AppRouter.removeAllAndPush(context, HomeScreen.routeName);
     }
+  }
+
+  double calculatePercentage(double obtained, double total) {
+    return double.parse(((obtained * 100) / total).toStringAsFixed(2));
+  }
+
+  BinContribution getContribution(BinContribution contribution, double total) {
+    contribution.contributionPercentage =
+        calculatePercentage(contribution.weight!, total);
+    return contribution;
   }
 }

@@ -25,7 +25,8 @@ class HiveProvider {
         'farmer',
         'farm',
         'sowing',
-        'bin'
+        'bin',
+        'procurement',
       }, // Names of your boxes
       path:
           tempPath, // Path where to store your boxes (Only used in Flutter / Dart IO)
